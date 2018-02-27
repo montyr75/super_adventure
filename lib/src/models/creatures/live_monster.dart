@@ -6,6 +6,7 @@ class LiveMonster extends Object with LiveCreature {
 
   LiveMonster(this._details) {
     setMaxHPByFormula(details.hpFormula);
+    heal();
   }
 
   Monster get details => _details;

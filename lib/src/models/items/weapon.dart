@@ -1,15 +1,14 @@
 import 'item.dart';
-import '../../utils/roller.dart';
+import '../creatures/attack.dart';
 
 class Weapon extends Item {
-  final String dmgFormula;
-  DiceExpression _dmg;
+  Attack _attack;
 
-  Weapon(ItemID id, String name, String namePlural, this.dmgFormula) : super(id, name, namePlural) {
-    _dmg = new DiceExpression.fromFormula(dmgFormula);
+  Weapon(ItemID id, String name, String namePlural, String dmgFormula) : super(id, name, namePlural) {
+    // a player's attack modifier changes as he progresses or with circumstances, so don't embed one in the Attack object
+    _attack = new Attack(name, 0, dmgFormula);
   }
 
-  int attack() => Roller.rollDiceExp(dmg);
-
-  DiceExpression get dmg => _dmg;
+  int attack([int mod = 0]) => _attack.attack() + mod;
+  int damage() => _attack.damage();
 }

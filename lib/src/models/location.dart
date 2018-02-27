@@ -13,12 +13,24 @@ class Location {
   final Monster monster;
 
   // travel
-  final Location north;
-  final Location east;
-  final Location south;
-  final Location west;
+  Location _north;
+  Location _east;
+  Location _south;
+  Location _west;
 
-  Location(this.id, this.name, this.description, {this.itemToEnter, this.quest, this.monster, this.north, this.east, this.south, this.west});
+  Location(this.id, this.name, this.description, {this.itemToEnter, this.quest, this.monster});
+
+  void linkLocations({Location north, Location east, Location south, Location west}) {
+    _north = north;
+    _east = east;
+    _south = south;
+    _west = west;
+  }
+
+  Location get north => _north;
+  Location get east => _east;
+  Location get south => _south;
+  Location get west => _west;
 
   bool get requiresItemToEnter => itemToEnter != null;
   bool get hasQuest => quest != null;

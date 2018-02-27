@@ -56,10 +56,77 @@ class Tutoria implements World {
       questCompletionItems: <InventoryItem>[
         new InventoryItem(items[ItemID.snakeFang], 3)
       ]
-    ),
+    )
   };
   
   static final Map<LocationID, Location> locations = {
-    LocationID.home: new Location(LocationID.home, "Home", "Your house. You really need to clean up the place.")
+    LocationID.home: new Location(LocationID.home, "Home", "Your house. You really need to clean up the place."),
+    LocationID.townSquare: new Location(LocationID.townSquare, "Town Square", "You see a fountain."),
+    LocationID.alchemistsHut: new Location(LocationID.alchemistsHut, "Alchemist's Hut", "There are many strange plants on the shelves.",
+      quest: quests[QuestID.clearAlchemistsGarden]
+    ),
+    LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, "Alchemist's Garden", "Many plants are growing here.",
+      monster: monsters[MonsterID.rat]
+    ),
+    LocationID.farmhouse: new Location(LocationID.farmhouse, "Farmhouse", "There is a small farmhouse, with a farmer in front.",
+      quest: quests[QuestID.clearFarmersField]
+    ),
+    LocationID.farmersfield: new Location(LocationID.farmersfield, "Farmer's Field", "You see rows of vegetables growing here.",
+      monster: monsters[MonsterID.snake]
+    ),
+    LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
+      itemToEnter: items[ItemID.adventurerPass]
+    ),
+    LocationID.bridge: new Location(LocationID.bridge, "Bridge", "A stone bridge crosses a wide river."),
+    LocationID.spiderForest: new Location(LocationID.spiderForest, "Spider Forest", "You see spider webs covering the trees in this forest.",
+      monster: monsters[MonsterID.giantSpider]
+    )
   };
+
+  Tutoria() {
+    // TODO: link locations together
+
+    locations[LocationID.home].linkLocations(
+      north: locations[LocationID.townSquare]
+    );
+
+    locations[LocationID.townSquare].linkLocations(
+      north: locations[LocationID.alchemistsHut],
+      east: locations[LocationID.guardPost],
+      south: locations[LocationID.home],
+      west: locations[LocationID.farmhouse]
+    );
+
+    locations[LocationID.farmhouse].linkLocations(
+      east: locations[LocationID.townSquare],
+      west: locations[LocationID.farmersfield]
+    );
+
+    locations[LocationID.farmersfield].linkLocations(
+      east: locations[LocationID.farmhouse]
+    );
+
+    locations[LocationID.alchemistsHut].linkLocations(
+      north: locations[LocationID.alchemistsGarden],
+      south: locations[LocationID.townSquare]
+    );
+
+    locations[LocationID.alchemistsGarden].linkLocations(
+      south: locations[LocationID.alchemistsHut]
+    );
+
+    locations[LocationID.guardPost].linkLocations(
+      east: locations[LocationID.bridge],
+      west: locations[LocationID.townSquare]
+    );
+
+    locations[LocationID.bridge].linkLocations(
+      east: locations[LocationID.spiderForest],
+      west: locations[LocationID.guardPost]
+    );
+
+    locations[LocationID.spiderForest].linkLocations(
+      west: locations[LocationID.bridge]
+    );
+  }
 }

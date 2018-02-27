@@ -5,6 +5,7 @@ import '../items/loot_item.dart';
 import '../items/weapon.dart';
 import '../items/healing_potion.dart';
 import '../creatures/monster.dart';
+import '../creatures/attack.dart';
 import '../quests/quest.dart';
 import '../location.dart';
 
@@ -25,15 +26,15 @@ class Tutoria implements World {
   };
 
   static final Map<MonsterID, Monster> monsters = {
-    MonsterID.rat: new Monster(MonsterID.rat, "Rat", "1d4 - 1", "1d1", 5, 0, <LootItem>[
+    MonsterID.rat: new Monster(MonsterID.rat, "Rat", "1d4 - 1", 10, new Attack("Bite", 0, "1d1"), 5, 0, <LootItem>[
       new LootItem(items[ItemID.ratTail], 50),
       new LootItem(items[ItemID.pieceOfFur], 70)
     ]),
-    MonsterID.snake: new Monster(MonsterID.snake, "Snake", "1d4 + 1", "1d4", 10, 0, <LootItem>[
+    MonsterID.snake: new Monster(MonsterID.snake, "Snake", "1d4 + 1", 12, new Attack("Bite", 3, "1d4"), 10, 0, <LootItem>[
       new LootItem(items[ItemID.snakeFang], 50),
       new LootItem(items[ItemID.snakeSkin], 70)
     ]),
-    MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", "1d8 + 3", 10, 50, <LootItem>[
+    MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 10, 50, <LootItem>[
       new LootItem(items[ItemID.spiderFang], 75),
       new LootItem(items[ItemID.spiderSilk], 75)
     ])

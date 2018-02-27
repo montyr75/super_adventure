@@ -1,3 +1,5 @@
+/// This is a mixin.
+
 import '../../utils/roller.dart';
 
 class LiveCreature {

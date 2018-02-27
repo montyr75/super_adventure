@@ -1,3 +1,4 @@
+import 'attack.dart';
 import '../items/loot_item.dart';
 import '../items/inventory_item.dart';
 import '../../utils/roller.dart';
@@ -6,7 +7,8 @@ class Monster {
   final MonsterID id;
   final String name;
   final String hpFormula;
-  final String dmgFormula;
+  final int ac;
+  final Attack attack;
   final int xp;
   final int gold;
 
@@ -14,11 +16,10 @@ class Monster {
 
   DiceExpression _dmg;
 
-  Monster(this.id, this.name, this.hpFormula, this.dmgFormula, this.xp, this.gold, [this._lootTable]) {
-    _dmg = new DiceExpression.fromFormula(dmgFormula);
-  }
+  Monster(this.id, this.name, this.hpFormula, this.ac, this.attack, this.xp, this.gold, [this._lootTable]);
 
-  int attack() => Roller.rollDiceExp(dmg);
+  int attackRoll() => attack.attack();
+  int damageRoll() => attack.damage();
 
   List<InventoryItem> loot() {
     if (_lootTable != null && _lootTable.isNotEmpty) {

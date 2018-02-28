@@ -9,8 +9,9 @@
     </div>
   </header>
 
-  <div class="layout horizontal">
+  <div class="layout horizontal" style="margin-top: 10px;">
     <player-view class="flex" [player]="game?.player"></player-view>
     <location-view class="flex" [location]="game?.location" (onMove)="game.movePlayer($event)"></location-view>
+    <messages-view class="flex" [messages]="game?.messages"></messages-view>
   </div>
 </material-content>

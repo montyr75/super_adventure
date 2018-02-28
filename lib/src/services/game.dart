@@ -2,6 +2,7 @@ import 'logger_service.dart';
 import '../models/worlds/world.dart';
 import '../models/creatures/player.dart';
 import '../models/location.dart';
+import '../models/message.dart';
 
 class Game {
   final LoggerService _log;
@@ -9,6 +10,8 @@ class Game {
   World _world;
   Player _player;
   Location _location;
+
+  List<Message> _messages = [];
 
   Game(LoggerService this._log) {
     _log.info("$runtimeType::Game()");
@@ -47,10 +50,12 @@ class Game {
     if (loc.requiresItemToEnter) {
       if (player.hasItem(loc.itemToEnter)) {
         // TODO: Create message: "You use your ${loc.itemToEnter.name} to enter ${loc.name}."
+        messages.add(new Message("You use your ${loc.itemToEnter.name} to enter ${loc.name}."));
         return true;
       }
       else {
         // TODO: Create message: "You must have the ${loc.itemToEnter.name} to enter ${loc.name}."
+        messages.add(new Message("You must have the ${loc.itemToEnter.name} to enter ${loc.name}."));
         return false;
       }
     }
@@ -68,4 +73,5 @@ class Game {
 
   Player get player => _player;
   Location get location => _location;
+  List<Message> get messages => _messages;
 }

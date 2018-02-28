@@ -11,6 +11,8 @@ class Player extends Object with LiveCreature {
 
   final String name;
 
+  int _ac;
+
   int _xp = 0;
   int _level = 1;
   int _gold = 20;
@@ -21,9 +23,10 @@ class Player extends Object with LiveCreature {
   // current status
   Weapon _weapon;
 
-  Player(this.name, [int hp = 10]) {
+  Player(this.name) {
     _generateLevelTable();
-    setMaxHP(hp);
+    setMaxHP(10);
+    _ac = _calculateAC();
     heal();
   }
 
@@ -104,6 +107,12 @@ class Player extends Object with LiveCreature {
     }
   }
 
+  int _calculateAC() {
+    // TODO: Eventually base this on armor and DEX
+
+    return 12;
+  }
+
   InventoryItem _getInventoryItem(Item item) => inventory.firstWhere((InventoryItem value) => value.details.id == item.id, orElse: () => null);
   PlayerQuest _getPlayerQuest(Quest quest) => quests.firstWhere((PlayerQuest value) => value.details.id == quest.id, orElse: () => null);
 
@@ -124,6 +133,7 @@ class Player extends Object with LiveCreature {
     }
   }
 
+  int get ac => _ac;
   int get xp => _xp;
   int get level => _level;
   int get gold => _gold;

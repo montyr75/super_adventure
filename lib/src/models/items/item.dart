@@ -1,9 +1,14 @@
 class Item {
+  static const String NAME_COLOR = "green";
+
   final ItemID id;
   final String name;
   final String namePlural;
 
   Item(this.id, this.name, this.namePlural);
+
+  String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
+  String get htmlNamePlural => '<span style="color: $NAME_COLOR;">$namePlural</span>';
 }
 
 enum ItemID {

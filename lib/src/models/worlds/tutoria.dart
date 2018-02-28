@@ -79,7 +79,7 @@ class Tutoria implements World {
       LocationID.farmhouse: new Location(LocationID.farmhouse, "Farmhouse", "There is a small farmhouse, with a farmer in front.",
         quest: quests[QuestID.clearFarmersField]
       ),
-      LocationID.farmersfield: new Location(LocationID.farmersfield, "Farmer's Field", "You see rows of vegetables growing here.",
+      LocationID.farmersField: new Location(LocationID.farmersField, "Farmer's Field", "You see rows of vegetables growing here.",
         monster: monsters[MonsterID.snake]
       ),
       LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
@@ -106,10 +106,10 @@ class Tutoria implements World {
 
     locations[LocationID.farmhouse].linkLocations(
       east: locations[LocationID.townSquare],
-      west: locations[LocationID.farmersfield]
+      west: locations[LocationID.farmersField]
     );
 
-    locations[LocationID.farmersfield].linkLocations(
+    locations[LocationID.farmersField].linkLocations(
       east: locations[LocationID.farmhouse]
     );
 

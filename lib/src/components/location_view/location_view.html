@@ -11,18 +11,18 @@
 
 <div class="layout vertical">
   <div>
-    <h4>{{location?.name}}</h4>
+    <h4 [safeInnerHtml]="location?.name"></h4>
     <p>{{location?.description}}</p>
   </div>
   <div class="layout vertical center">
-    <button type="button" class="btn btn-dark" [disabled]="!location?.N" (click)="move('N')">N</button>
+    <button type="button" class="btn btn-dark" [disabled]="!location?.N" (click)="move(Direction.north)">N</button>
 
     <div class="layout horizontal center">
-      <button type="button" class="btn btn-dark" [disabled]="!location?.W" (click)="move('W')">W</button>
+      <button type="button" class="btn btn-dark" [disabled]="!location?.W" (click)="move(Direction.west)">W</button>
       <span style="width: 40px"></span>
-      <button type="button" class="btn btn-dark" [disabled]="!location?.E" (click)="move('E')">E</button>
+      <button type="button" class="btn btn-dark" [disabled]="!location?.E" (click)="move(Direction.east)">E</button>
     </div>
 
-    <button type="button" class="btn btn-dark" [disabled]="!location?.S" (click)="move('S')">S</button>
+    <button type="button" class="btn btn-dark" [disabled]="!location?.S" (click)="move(Direction.south)">S</button>
   </div>
 </div>

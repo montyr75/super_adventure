@@ -5,9 +5,12 @@ import 'package:angular/angular.dart';
 import '../../services/logger_service.dart';
 import '../../models/location.dart';
 
+import '../../directives/safe_inner_html.dart';
+
 @Component(selector: 'location-view',
     templateUrl: 'location_view.html',
-    directives: const []
+    directives: const [SafeInnerHtml],
+    exports: const [Direction]
 )
 class LocationView {
   final LoggerService _log;
@@ -21,16 +24,5 @@ class LocationView {
     _log.info("$runtimeType()");
   }
 
-  void move(String dir) {
-    Location newLoc;
-
-    switch (dir) {
-      case 'N': newLoc = location.north; break;
-      case 'E': newLoc = location.east; break;
-      case 'S': newLoc = location.south; break;
-      case 'W': newLoc = location.west; break;
-    }
-
-    _onMove.add(newLoc);
-  }
+  void move(Direction dir) => _onMove.add(location.destinations[dir]);
 }

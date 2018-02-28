@@ -10,7 +10,7 @@ class Roller {
   static int rollDie(int sides) => _random.nextInt(sides) + 1;
 
   static int rollDice(int qty, int sides, [int mod = 0]) {
-    assert(qty > 1 && sides > 1);
+    assert(qty >= 1 && sides >= 1);
 
     int rollsTotal = 0;
 
@@ -52,7 +52,7 @@ class DiceExpression {
   final int mod;
 
   DiceExpression(this.qty, this.sides, [this.mod = 0]) {
-    assert(qty > 1 && sides > 1);
+    assert(qty >= 1 && sides >= 1);
   }
 
   factory DiceExpression.fromFormula(String formula) {

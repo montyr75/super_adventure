@@ -1,5 +1,4 @@
 import 'live_creature.dart';
-import '../location.dart';
 import '../items/item.dart';
 import '../items/weapon.dart';
 import '../items/inventory_item.dart';
@@ -20,7 +19,6 @@ class Player extends Object with LiveCreature {
   List<PlayerQuest> _quests = [];
 
   // current status
-  Location _location;
   Weapon _weapon;
 
   Player(this.name, [int hp = 10]) {
@@ -48,11 +46,6 @@ class Player extends Object with LiveCreature {
     }
 
     return true;
-  }
-
-  void move(Location loc) {
-    _location = loc;
-    heal();
   }
 
   void gainGold(int gold) => _gold += gold;
@@ -137,6 +130,5 @@ class Player extends Object with LiveCreature {
 
   List<InventoryItem> get inventory => _inventory;
   List<PlayerQuest> get quests => _quests;
-  Location get location => _location;
   Weapon get weapon => _weapon;
 }

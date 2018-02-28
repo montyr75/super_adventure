@@ -3,10 +3,10 @@
 import '../../utils/roller.dart';
 
 class LiveCreature {
-  int _hp;
-  int _maxHP;
+  int _hp = 0;
+  int _maxHP = 0;
 
-  void setMaxHP(int max) => _hp = max;
+  void setMaxHP(int max) => _maxHP = max;
 
   void setMaxHPByExp(DiceExpression exp) {
     int hp = Roller.rollDiceExp(exp);

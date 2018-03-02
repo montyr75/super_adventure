@@ -23,7 +23,7 @@ class Player extends Object with LiveCreature {
   // current status
   Weapon _weapon;
 
-  Player(this.name) {
+  Player([this.name = "Hero"]) {
     _generateLevelTable();
     setMaxHP(10);
     _ac = _calculateAC();

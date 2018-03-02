@@ -1,4 +1,11 @@
-<material-content>
+<style>
+  messages-view {
+    overflow-y: hidden;
+    height: 80vh;
+  }
+</style>
+
+<material-content class="fit layout vertical">
   <header class="material-header shadow">
     <div class="material-header-row">
       <span class="material-header-title">Super Adventure</span>
@@ -9,9 +16,9 @@
     </div>
   </header>
 
-  <div class="layout horizontal" style="padding: 10px;">
-    <player-view class="flex" [player]="game?.player"></player-view>
+  <div class="flex layout horizontal" style="padding: 10px;">
+    <player-view class="flex layout vertical" [player]="game?.player" (onAttack)="game.playerAttack($event)"></player-view>
     <location-view class="flex" [location]="game?.location" (onMove)="game.movePlayer($event)"></location-view>
-    <messages-view class="flex" [messages]="game?.messages"></messages-view>
+    <messages-view class="flex layout vertical" [messages]="game?.messages"></messages-view>
   </div>
 </material-content>

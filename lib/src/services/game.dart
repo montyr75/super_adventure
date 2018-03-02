@@ -2,11 +2,16 @@ import 'logger_service.dart';
 import '../models/worlds/world.dart';
 import '../models/creatures/player.dart';
 import '../models/creatures/live_monster.dart';
+import '../models/creatures/attack.dart';
+import '../models/items/item.dart';
 import '../models/items/inventory_item.dart';
+import '../models/items/weapon.dart';
 import '../models/location.dart';
 import '../models/message.dart';
 
 class Game {
+  static const MAX_MESSAGES = 20;
+
   final LoggerService _log;
 
   World _world;
@@ -25,10 +30,13 @@ class Game {
     _world = world;
 
     // create player
-    _player = new Player("Russell");
+    _player = new Player();
 
     // start player at home
     movePlayer(_world.locations[LocationID.home]);
+
+    // player needs a weapon
+    _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword])])));
   }
 
   void movePlayer(Location loc) {
@@ -49,6 +57,56 @@ class Game {
 
     _checkQuests(loc);
     _checkMonsters(loc);
+  }
+
+  void playerAttack(Weapon weapon) {
+    if (monster == null) {
+      _message(new Message("There is nothing to attack here."));
+      return;
+    }
+
+    if (Attack.hit(weapon.attack(), monster.details.ac)) {
+      int dmg = weapon.damage();
+      monster.hurt(dmg);
+
+      _message(new Message("You strike the ${monster.htmlName} with your ${weapon.htmlName} for $dmg damage."));
+    }
+    else {
+      _message(new Message("You attack the ${monster.htmlName} with your ${weapon.htmlName}, but you miss!"));
+    }
+
+    if (monster.isDead) {
+      StringBuffer sb = new StringBuffer();
+      sb.writeln("The ${monster.htmlName} dies!");
+      sb.writeln();
+      sb.write(_rewardPlayer(xp: monster.details.xp, gold: monster.details.gold, items: monster.details.loot()));
+      _message(new Message(sb.toString()));
+
+      _monster = null;
+    }
+    else {
+      _monsterAttack();
+    }
+  }
+
+  void _monsterAttack() {
+    if (Attack.hit(monster.details.attackRoll(), player.ac)) {
+      int dmg = monster.details.damageRoll();
+      player.hurt(dmg);
+
+      _message(new Message("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for $dmg damage."));
+    }
+    else {
+      _message(new Message("The ${monster.htmlName} attacks you with a ${monster.details.attack.htmlName} and misses you!"));
+    }
+
+    if (player.isDead) {
+      _message(new Message("You have died...."));
+
+      _monster = null;
+
+      movePlayer(_world.locations[LocationID.home]);
+    }
   }
 
   bool _checkForRequiredItem(Location loc) {
@@ -79,7 +137,7 @@ class Game {
           String rewardText = _rewardPlayer(
             xp: loc.quest.xp,
             gold: loc.quest.gold,
-            items: loc.quest.hasItem ? [new InventoryItem(loc.quest.item, 1)] : null
+            items: loc.quest.hasItem ? [new InventoryItem(loc.quest.item)] : null
           );
 
           sb.writeln(rewardText);
@@ -122,14 +180,14 @@ class Game {
 
     sb.writeln("You receive...");
 
-    if (xp != null) {
+    if (xp != null && xp > 0) {
       player.gainXP(xp);
-      sb.writeln("XP: $xp");
+      sb.writeln("<strong>XP:</strong> $xp");
     }
 
-    if (gold != null) {
+    if (gold != null && gold > 0) {
       player.gainGold(gold);
-      sb.writeln("Gold: $gold");
+      sb.writeln("<strong>Gold:</strong> $gold");
     }
 
     if (items != null && items.isNotEmpty) {
@@ -144,6 +202,10 @@ class Game {
 
   void _message(Message msg) {
     messages.add(msg);
+
+    if (messages.length > MAX_MESSAGES) {
+      _messages = messages.skip(messages.length - MAX_MESSAGES).toList();
+    }
 
     // TODO: limit the number of messages we're storing
   }

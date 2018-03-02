@@ -11,4 +11,7 @@ class PlayerQuest {
 
   Quest get details => _details;
   bool get isCompleted => _isCompleted;
+
+  String get name => details.name;
+  String get htmlName => details.htmlName;
 }

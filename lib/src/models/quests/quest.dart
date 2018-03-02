@@ -2,7 +2,7 @@ import '../items/item.dart';
 import '../items/inventory_item.dart';
 
 class Quest {
-  static const String NAME_COLOR = "purple";
+  static const String NAME_COLOR = "maroon";
 
   final QuestID id;
   final String name;

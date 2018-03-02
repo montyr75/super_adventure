@@ -4,7 +4,7 @@ class InventoryItem {
   final Item details;
   int _qty;
 
-  InventoryItem(this.details, this._qty);
+  InventoryItem(this.details, [this._qty = 1]);
 
   void increaseQty([int by = 0]) => _qty++;
   void decreaseQty([int by = 0]) => _qty--;
@@ -13,4 +13,6 @@ class InventoryItem {
 
   String get name => qty == 1 ? details.name : details.namePlural;
   String get htmlName => qty == 1 ? details.htmlName : details.htmlNamePlural;
+
+  String get type => details.runtimeType.toString();
 }

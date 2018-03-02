@@ -4,10 +4,11 @@ import '../../services/logger_service.dart';
 import '../../models/message.dart';
 
 import '../../directives/safe_inner_html.dart';
+import '../../directives/vu_scroll_down.dart';
 
 @Component(selector: 'messages-view',
     templateUrl: 'messages_view.html',
-    directives: const [CORE_DIRECTIVES, SafeInnerHtml]
+    directives: const [CORE_DIRECTIVES, SafeInnerHtml, VuScrollDown]
 )
 class MessagesView {
   final LoggerService _log;

@@ -2,7 +2,7 @@ import 'monster.dart';
 import 'live_creature.dart';
 
 class LiveMonster extends Object with LiveCreature {
-  static const String NAME_COLOR = "red";
+  static const String NAME_COLOR = "purple";
 
   final Monster _details;
 

@@ -39,7 +39,7 @@ class Game {
     _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword])])));
   }
 
-  void movePlayer(Location loc) {
+  void movePlayer(Location loc, {bool healPlayer = true}) {
     // running away, eh?
     if (_monster != null) {
       _message(new Message("You bravely flee from the ${_monster.htmlName}."));
@@ -47,7 +47,9 @@ class Game {
     }
     
     // player heals during travel
-    player.heal();
+    if (healPlayer) {
+      player.heal();
+    }
 
     if (!_checkForRequiredItem(loc)) {
       return;
@@ -65,48 +67,62 @@ class Game {
       return;
     }
 
+    StringBuffer sb = new StringBuffer();
+
     if (Attack.hit(weapon.attack(), monster.details.ac)) {
       int dmg = weapon.damage();
       monster.hurt(dmg);
 
-      _message(new Message("You strike the ${monster.htmlName} with your ${weapon.htmlName} for $dmg damage."));
+      sb.writeln("You strike the ${monster.htmlName} with your ${weapon.htmlName} for <strong>$dmg</strong> damage.");
     }
     else {
-      _message(new Message("You attack the ${monster.htmlName} with your ${weapon.htmlName}, but you miss!"));
+      sb.writeln("You attack the ${monster.htmlName} with your ${weapon.htmlName}, but you miss!");
     }
 
+    sb.writeln();
+
     if (monster.isDead) {
-      StringBuffer sb = new StringBuffer();
       sb.writeln("The ${monster.htmlName} dies!");
       sb.writeln();
       sb.write(_rewardPlayer(xp: monster.details.xp, gold: monster.details.gold, items: monster.details.loot()));
-      _message(new Message(sb.toString()));
 
       _monster = null;
     }
     else {
-      _monsterAttack();
+      sb.write(_monsterAttack());
+    }
+
+    _message(new Message(sb.toString()));
+
+    // if monster died, respawn monsters, etc., but no healing without travel time
+    if (monster == null) {
+      movePlayer(location, healPlayer: false);
     }
   }
 
-  void _monsterAttack() {
+  String _monsterAttack() {
+    StringBuffer sb = new StringBuffer();
+
     if (Attack.hit(monster.details.attackRoll(), player.ac)) {
       int dmg = monster.details.damageRoll();
       player.hurt(dmg);
 
-      _message(new Message("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for $dmg damage."));
+      sb.writeln("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for <strong>$dmg</strong> damage.");
     }
     else {
-      _message(new Message("The ${monster.htmlName} attacks you with a ${monster.details.attack.htmlName} and misses you!"));
+      sb.writeln("The ${monster.htmlName} attacks you with a ${monster.details.attack.htmlName} and misses you!");
     }
 
     if (player.isDead) {
-      _message(new Message("You have died...."));
+      sb.writeln();
+      sb.writeln("You have died....");
 
       _monster = null;
 
       movePlayer(_world.locations[LocationID.home]);
     }
+
+    return sb.toString();
   }
 
   bool _checkForRequiredItem(Location loc) {

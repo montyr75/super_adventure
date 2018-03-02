@@ -9,6 +9,6 @@ class Weapon extends Item {
     _attack = new Attack(name, 0, dmgFormula);
   }
 
-  int attack([int mod = 0]) => _attack.attack() + mod;
+  int attack({int mod = 0}) => _attack.attack() + mod;
   int damage() => _attack.damage();
 }

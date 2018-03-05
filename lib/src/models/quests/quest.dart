@@ -20,6 +20,21 @@ class Quest {
   bool get hasItem => item != null;
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
+
+  String toHTMLString() {
+    StringBuffer sb = new StringBuffer();
+    sb.writeln("<strong>Quest:</strong> ${htmlName}");
+    sb.writeln();
+    sb.writeln(description);
+    sb.writeln();
+    sb.writeln("To complete this quest, return with:");
+
+    for (InventoryItem item in questCompletionItems) {
+      sb.writeln("${item.qty} ${item.htmlName}");
+    }
+
+    return sb.toString().replaceAll('\n', '<br>');
+  }
 }
 
 enum QuestID {

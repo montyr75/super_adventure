@@ -165,15 +165,9 @@ class Game {
         player.gainQuest(loc.quest);
 
         StringBuffer sb = new StringBuffer();
-        sb.writeln("<strong>New quest:</strong> ${loc.quest.htmlName}");
+        sb.writeln("You take on a new quest!");
         sb.writeln();
-        sb.writeln(loc.quest.description);
-        sb.writeln();
-        sb.writeln("To complete this quest, return here with:");
-
-        for (InventoryItem item in loc.quest.questCompletionItems) {
-          sb.writeln("${item.qty} ${item.htmlName}");
-        }
+        sb.write(loc.quest.toHTMLString());
 
         _message(new Message(sb.toString()));
       }

@@ -2,6 +2,10 @@
   .completed {
     text-decoration: line-through;
   }
+
+  .quest {
+    cursor: pointer;
+  }
 </style>
 
 <h5>Hero</h5>
@@ -50,10 +54,14 @@
 
   <div *ngIf="player.quests != null && player.quests.isNotEmpty">
     <h5 style="margin-top: 15px;">Quests</h5>
-    <ul class="list-group">
-      <li *ngFor="let quest of player.quests" class="list-group-item d-flex align-items-center" [class.completed]="quest.isCompleted">
+    <ul class="list-group" #questPopupSource="popupSource" popupSource>
+      <li *ngFor="let quest of player.quests" class="list-group-item d-flex align-items-center quest" [class.completed]="quest.isCompleted" (click)="questSelected(quest)">
         {{quest.name}}
       </li>
     </ul>
+
+    <material-popup [source]="questPopupSource" [(visible)]="questPopupVisible">
+      <div [safeInnerHtml]="selectedQuestText" style="padding: 5px; max-width: 400px;"></div>
+    </material-popup>
   </div>
 </div>

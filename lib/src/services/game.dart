@@ -1,3 +1,5 @@
+import 'package:angular/angular.dart';
+
 import 'logger_service.dart';
 import '../models/worlds/world.dart';
 import '../models/creatures/player.dart';
@@ -9,6 +11,7 @@ import '../models/items/weapon.dart';
 import '../models/location.dart';
 import '../models/message.dart';
 
+@Injectable()
 class Game {
   static const MAX_MESSAGES = 20;
 
@@ -39,7 +42,7 @@ class Game {
     _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword])])));
   }
 
-  void movePlayer(Location loc, {bool healPlayer = true}) {
+  void movePlayer(Location loc) {
     // running away, eh?
     if (_monster != null) {
       _message(new Message("You bravely flee from the ${_monster.htmlName}."));
@@ -47,9 +50,7 @@ class Game {
     }
     
     // player heals during travel
-    if (healPlayer) {
-      player.heal();
-    }
+    player.heal();
 
     if (!_checkForRequiredItem(loc)) {
       return;
@@ -59,6 +60,18 @@ class Game {
 
     _checkQuests(loc);
     _checkMonsters(loc);
+  }
+
+  void explore() {
+    StringBuffer sb = new StringBuffer("You search the area.");
+
+    if (!location.hasMonster) {
+      sb.write(" You find nothing of interest.");
+    }
+
+    _message(new Message(sb.toString()));
+
+    _checkMonsters(location);
   }
 
   void playerAttack(Weapon weapon) {
@@ -93,11 +106,6 @@ class Game {
     }
 
     _message(new Message(sb.toString()));
-
-    // if monster died, respawn monsters, etc., but no healing without travel time
-    if (monster == null) {
-      movePlayer(location, healPlayer: false);
-    }
   }
 
   String _monsterAttack() {
@@ -216,8 +224,6 @@ class Game {
     if (messages.length > MAX_MESSAGES) {
       _messages = messages.skip(messages.length - MAX_MESSAGES).toList();
     }
-
-    // TODO: limit the number of messages we're storing
   }
 
   Player get player => _player;

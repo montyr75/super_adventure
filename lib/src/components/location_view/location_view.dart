@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:angular/angular.dart';
 
 import '../../services/logger_service.dart';
+import '../../services/game.dart';
 import '../../models/location.dart';
 
 import '../../directives/safe_inner_html.dart';
@@ -14,15 +15,23 @@ import '../../directives/safe_inner_html.dart';
 )
 class LocationView {
   final LoggerService _log;
+  final Game _game;
 
   @Input() Location location;
 
   final StreamController<Location> _onMove = new StreamController.broadcast();
   @Output() Stream<Location> get onMove => _onMove.stream;
 
-  LocationView(LoggerService this._log) {
+  final StreamController _onExplore = new StreamController.broadcast();
+  @Output() Stream get onExplore => _onExplore.stream;
+
+  LocationView(LoggerService this._log, Game this._game) {
     _log.info("$runtimeType()");
   }
 
   void move(Direction dir) => _onMove.add(location.destinations[dir]);
+
+  void explore() => _onExplore.add(null);
+
+  Game get game => _game;
 }

@@ -18,7 +18,7 @@
 
   <div *ngIf="game != null && game.player != null" class="flex layout horizontal" style="padding: 10px;">
     <player-view class="flex layout vertical" [player]="game.player" (onAttack)="game.playerAttack($event)"></player-view>
-    <location-view class="flex" [location]="game.location" (onMove)="game.movePlayer($event)"></location-view>
+    <location-view class="flex" [location]="game.location" (onMove)="game.movePlayer($event)" (onExplore)="game.explore()"></location-view>
     <messages-view class="flex layout vertical" [messages]="game.messages"></messages-view>
   </div>
 </material-content>

@@ -17,17 +17,15 @@ import 'src/components/messages_view/messages_view.dart';
   styleUrls: const ['app_component.css', 'package:angular_components/app_layout/layout.scss.css'],
   templateUrl: 'app_component.html',
   directives: const [CORE_DIRECTIVES, materialDirectives, PlayerView, LocationView, MessagesView],
-  providers: const [materialProviders]
+  providers: const [materialProviders, Game]
 )
 class AppComponent {
   final LoggerService _log;
+  final Game _game;
 
-  Game _game;
-
-  AppComponent(LoggerService this._log) {
+  AppComponent(LoggerService this._log, Game this._game) {
     _log.info("$runtimeType::AppComponent()");
 
-    _game = new Game(_log);
     game.newGame(new Tutoria());
   }
 

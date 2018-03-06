@@ -17,36 +17,36 @@
     <!--</tr>-->
     <tr>
       <th scope="row">AC</th>
-      <td>{{player?.ac}}</td>
+      <td>{{player.ac}}</td>
     </tr>
     <tr>
       <th scope="row">HP</th>
-      <td>{{player?.hp}} / {{player?.maxHP}}</td>
+      <td>{{player.hp}} / {{player.maxHP}}</td>
     </tr>
     <tr>
       <th scope="row">Gold</th>
-      <td>{{player?.gold}}</td>
+      <td>{{player.gold}}</td>
     </tr>
     <tr>
       <th scope="row">XP</th>
-      <td>{{player?.xp}}</td>
+      <td>{{player.xp}} / {{Player.levelTable[player.level]}}</td>
     </tr>
     <tr>
       <th scope="row">Level</th>
-      <td>{{player?.level}}</td>
+      <td>{{player.level}}</td>
     </tr>
   </tbody>
 </table>
 
-<div *ngIf="player != null" class="layout vertical">
+<div class="layout vertical">
   <div *ngIf="player.inventory != null && player.inventory.isNotEmpty">
     <h5>Inventory</h5>
     <ul class="list-group">
       <li *ngFor="let item of player.inventory" class="list-group-item d-flex justify-content-between align-items-center">
         {{item.qty}} {{item.name}}
         <div class="d-flex">
-          <button *ngIf="item.type == 'Weapon'" type="button" class="btn btn-outline-danger btn-sm" (click)="attack(item.details)">Attack</button>
-          <button *ngIf="item.type == 'HealingPotion'" type="button" class="btn btn-outline-secondary btn-sm" (click)="drink(item)">Drink</button>
+          <button *ngIf="item.type == 'weapon'" type="button" class="btn btn-outline-danger btn-sm" (click)="attack(item.details)">Attack</button>
+          <button *ngIf="item.type == 'potion'" type="button" class="btn btn-outline-secondary btn-sm" (click)="drink(item)">Drink</button>
         </div>
       </li>
     </ul>

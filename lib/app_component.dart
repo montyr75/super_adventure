@@ -16,7 +16,7 @@ import 'src/components/messages_view/messages_view.dart';
   selector: 'my-app',
   styleUrls: const ['app_component.css', 'package:angular_components/app_layout/layout.scss.css'],
   templateUrl: 'app_component.html',
-  directives: const [materialDirectives, PlayerView, LocationView, MessagesView],
+  directives: const [CORE_DIRECTIVES, materialDirectives, PlayerView, LocationView, MessagesView],
   providers: const [materialProviders]
 )
 class AppComponent {

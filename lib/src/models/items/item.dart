@@ -4,8 +4,9 @@ class Item {
   final ItemID id;
   final String name;
   final String namePlural;
+  final String type;
 
-  Item(this.id, this.name, this.namePlural);
+  Item(this.id, this.name, this.namePlural, [this.type = 'item']);
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
   String get htmlNamePlural => '<span style="color: $NAME_COLOR;">$namePlural</span>';

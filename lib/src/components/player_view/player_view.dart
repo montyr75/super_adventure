@@ -14,7 +14,8 @@ import '../../models/quests/player_quest.dart';
 
 @Component(selector: 'player-view',
     templateUrl: 'player_view.html',
-    directives: const [CORE_DIRECTIVES, materialDirectives, SafeInnerHtml]
+    directives: const [CORE_DIRECTIVES, materialDirectives, SafeInnerHtml],
+    exports: const [Player]
 )
 class PlayerView {
   final LoggerService _log;

@@ -14,5 +14,5 @@ class InventoryItem {
   String get name => qty == 1 ? details.name : details.namePlural;
   String get htmlName => qty == 1 ? details.htmlName : details.htmlNamePlural;
 
-  String get type => details.runtimeType.toString();
+  String get type => details.type;
 }

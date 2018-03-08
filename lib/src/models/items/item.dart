@@ -1,3 +1,6 @@
+import '../global.dart';
+import '../../utils/utils.dart';
+
 class Item {
   static const String NAME_COLOR = "green";
 
@@ -10,6 +13,8 @@ class Item {
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
   String get htmlNamePlural => '<span style="color: $NAME_COLOR;">$namePlural</span>';
+
+  String get imgPath => "$ITEM_IMAGE_PATH/${imgFromName(name)}";
 }
 
 enum ItemID {

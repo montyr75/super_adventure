@@ -20,9 +20,6 @@ class Player extends Object with LiveCreature {
   List<InventoryItem> _inventory = [];
   List<PlayerQuest> _quests = [];
 
-  // current status
-  Weapon _weapon;
-
   Player([this.name = "Hero"]) {
     _generateLevelTable();
     setMaxHP(10);
@@ -138,7 +135,9 @@ class Player extends Object with LiveCreature {
   int get level => _level;
   int get gold => _gold;
 
+  int get attackBonus => level;
+
   List<InventoryItem> get inventory => _inventory;
   List<PlayerQuest> get quests => _quests;
-  Weapon get weapon => _weapon;
+  List<Weapon> get weapons => inventory.where((InventoryItem item) => item.details.type == 'weapon').map((InventoryItem item) => item.details).toList();
 }

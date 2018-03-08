@@ -11,4 +11,6 @@ class Weapon extends Item {
 
   int attack({int mod = 0}) => _attack.attack() + mod;
   int damage() => _attack.damage();
+
+  String get dmgFormula => _attack.dmgFormula;
 }

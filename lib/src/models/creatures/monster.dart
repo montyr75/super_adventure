@@ -42,7 +42,7 @@ class Monster {
 
   DiceExpression get dmg => _dmg;
 
-  String get imgPath => "$MONSTER_IMAGE_PATH/${toSnakeCase(name)}.jpg";
+  String get imgPath => "$MONSTER_IMAGE_PATH/${imgFromName(name)}";
 }
 
 enum MonsterID {

@@ -81,7 +81,7 @@ class Game {
 
     StringBuffer sb = new StringBuffer();
 
-    if (Attack.hit(weapon.attack(mod: player.level), monster.details.ac)) {
+    if (Attack.hit(weapon.attack(mod: player.attackBonus), monster.details.ac)) {
       int dmg = weapon.damage();
       monster.hurt(dmg);
 

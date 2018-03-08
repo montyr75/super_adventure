@@ -17,9 +17,6 @@
 
   .stats {
     margin-top: 1em;
-    border: 1px solid black;
-    border-radius: 1px;
-    padding: .5em;
   }
 </style>
 
@@ -36,29 +33,37 @@
 
 <div *ngIf="inCombat" class="container">
   <div class="row">
-    <div class="col">
-      <h4>Player</h4>
-      <img [src]="heroImgPath" class="rounded combat-image">
-      <div class="layout horizontal center justified stats">
-        <div class="layout horizontal"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+    <div class="col-6 layout vertical center">
+      <div class="announcement">{{game.player.name ?? 'Hero'}}</div>
 
-        <div class="layout horizontal center" style="width: 100px;">
-          <i class="ra ra-two-hearts ra-lg"></i>
-          <material-progress class="flex" [activeProgress]="playerHPPercentage"></material-progress>
-        </div>
+      <div class="layout vertical center">
+        <img [src]="heroImgPath" class="combat-image">
+        <material-progress class="flex" [activeProgress]="percent(game.player.hp, game.player.maxHP)"></material-progress>
+      </div>
+
+      <div class="layout horizontal stats"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+
+      <div class="layout vertical" style="width: 100%;">
+        <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger" (click)="attack(weapon)" style="text-align: left;">
+          <div>{{weapon.name}}</div>
+          <div>+{{game.player.attackBonus}} / {{weapon.dmgFormula}}</div>
+        </button>
       </div>
     </div>
+
     <div class="col">
-      <h4>Messages</h4>
       <div>{{message}}</div>
     </div>
-    <div class="col">
-      <h4>Monster</h4>
-      <img [src]="monsterImgPath" class="rounded combat-image">
-      <div class="layout horizontal center justified stats">
-        <div><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
-        <div><i class="ra ra-two-hearts ra-lg"></i> {{game.monster.hp}}</div>
+
+    <div class="col layout vertical center">
+      <div class="announcement" [safeInnerHtml]="game.monster.htmlName"></div>
+
+      <div class="layout vertical center">
+        <img [src]="monsterImgPath" class="combat-image">
+        <material-progress class="flex" [activeProgress]="percent(game.monster.hp, game.monster.maxHP)"></material-progress>
       </div>
+
+      <div class="layout horizontal stats"><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
     </div>
   </div>
 </div>

@@ -45,8 +45,7 @@ class Game {
   void movePlayer(Location loc) {
     // running away, eh?
     if (_monster != null) {
-      _message(new Message("You bravely flee from the ${_monster.htmlName}."));
-      _monster = null;
+      flee();
     }
     
     // player heals during travel
@@ -106,6 +105,11 @@ class Game {
     }
 
     _message(new Message(sb.toString()));
+  }
+
+  void flee() {
+    _message(new Message("You bravely flee from the ${_monster.htmlName}."));
+    _monster = null;
   }
 
   String _monsterAttack() {

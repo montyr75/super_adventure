@@ -1,7 +1,9 @@
 import 'attack.dart';
+import '../global.dart';
 import '../items/loot_item.dart';
 import '../items/inventory_item.dart';
 import '../../utils/roller.dart';
+import '../../utils/utils.dart';
 
 class Monster {
   final MonsterID id;
@@ -39,6 +41,8 @@ class Monster {
   }
 
   DiceExpression get dmg => _dmg;
+
+  String get imgPath => "$MONSTER_IMAGE_PATH/${toSnakeCase(name)}.jpg";
 }
 
 enum MonsterID {

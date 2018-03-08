@@ -16,9 +16,13 @@
     </div>
   </header>
 
-  <div *ngIf="game != null && game.player != null" class="flex layout horizontal" style="padding: 10px;">
-    <player-view class="flex layout vertical" [player]="game.player" (onAttack)="game.playerAttack($event)"></player-view>
-    <location-view class="flex" [location]="game.location" (onMove)="game.movePlayer($event)" (onExplore)="game.explore()"></location-view>
-    <messages-view class="flex layout vertical" [messages]="game.messages"></messages-view>
+  <div *ngIf="game != null && game.player != null" class="flex layout vertical" style="padding: 10px;">
+    <div [hidden]="game.monster != null" class="flex layout horizontal">
+      <player-view class="flex layout vertical" [player]="game.player" (onAttack)="game.playerAttack($event)"></player-view>
+      <location-view class="flex" [location]="game.location" (onMove)="game.movePlayer($event)" (onExplore)="game.explore()"></location-view>
+      <messages-view class="flex layout vertical" [messages]="game.messages"></messages-view>
+    </div>
+
+    <combat-view *ngIf="game.monster != null" class="flex"></combat-view>
   </div>
 </material-content>

@@ -8,6 +8,7 @@ import 'src/models/worlds/tutoria.dart';
 import 'src/components/player_view/player_view.dart';
 import 'src/components/location_view/location_view.dart';
 import 'src/components/messages_view/messages_view.dart';
+import 'src/components/combat_view/combat_view.dart';
 
 // AngularDart info: https://webdev.dartlang.org/angular
 // Components info: https://webdev.dartlang.org/components
@@ -16,7 +17,7 @@ import 'src/components/messages_view/messages_view.dart';
   selector: 'my-app',
   styleUrls: const ['app_component.css', 'package:angular_components/app_layout/layout.scss.css'],
   templateUrl: 'app_component.html',
-  directives: const [CORE_DIRECTIVES, materialDirectives, PlayerView, LocationView, MessagesView],
+  directives: const [CORE_DIRECTIVES, materialDirectives, PlayerView, LocationView, MessagesView, CombatView],
   providers: const [materialProviders, Game]
 )
 class AppComponent {

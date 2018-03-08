@@ -1,0 +1,1 @@
+String toSnakeCase(String str) => str.split(" ").map((String word) => word.toLowerCase()).join("_");

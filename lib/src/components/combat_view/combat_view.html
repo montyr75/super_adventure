@@ -1,0 +1,58 @@
+<style>
+  .announcement {
+    font-size: 2em;
+  }
+
+  .button-bar {
+    margin-top: 1em;
+  }
+
+  .monster-preview {
+    max-height: 300px;
+  }
+
+  .combat-image {
+    height: 200px;
+  }
+
+  .stats {
+    margin-top: 1em;
+
+  }
+</style>
+
+<div *ngIf="!inCombat" class="layout vertical center">
+  <p class="announcement">You see a <span [safeInnerHtml]="game.monster.htmlName"></span>!</p>
+
+  <img [src]="monsterImgPath" class="rounded monster-preview">
+
+  <div class="layout horizontal button-bar">
+    <button type="button" class="btn btn-dark loc" style="margin-right: 3em;" (click)="inCombat = true">Fight</button>
+    <button type="button" class="btn btn-dark loc" (click)="flee()">Flee</button>
+  </div>
+</div>
+
+<div *ngIf="inCombat" class="container">
+  <div class="row">
+    <div class="col">
+      <h4>Player</h4>
+      <img [src]="heroImgPath" class="rounded combat-image">
+      <div class="layout horizontal center justified stats">
+        <div><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+        <div><i class="ra ra-two-hearts ra-lg"></i> {{game.player.hp}}</div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>Messages</h4>
+      <div>{{message}}</div>
+    </div>
+    <div class="col">
+      <h4>Monster</h4>
+      <img [src]="monsterImgPath" class="rounded combat-image">
+      <div class="layout horizontal center justified stats">
+        <div><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
+        <div><i class="ra ra-two-hearts ra-lg"></i> {{game.monster.hp}}</div>
+      </div>
+    </div>
+  </div>
+</div>

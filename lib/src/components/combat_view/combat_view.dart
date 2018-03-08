@@ -1,4 +1,5 @@
 import 'package:angular/angular.dart';
+import 'package:angular_components/material_progress/material_progress.dart';
 
 import '../../services/logger_service.dart';
 import '../../services/game.dart';
@@ -9,7 +10,7 @@ import '../../directives/safe_inner_html.dart';
 
 @Component(selector: 'combat-view',
     templateUrl: 'combat_view.html',
-    directives: const [CORE_DIRECTIVES, SafeInnerHtml]
+    directives: const [CORE_DIRECTIVES, SafeInnerHtml, MaterialProgressComponent]
 )
 class CombatView {
   final LoggerService _log;
@@ -33,4 +34,6 @@ class CombatView {
 
   String get heroImgPath => "$IMAGE_PATH/hero.jpg";
   String get monsterImgPath => game.monster.details.imgPath;
+
+  int get playerHPPercentage => (game.player.hp / game.player.maxHP * 100).round();
 }

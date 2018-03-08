@@ -17,7 +17,9 @@
 
   .stats {
     margin-top: 1em;
-
+    border: 1px solid black;
+    border-radius: 1px;
+    padding: .5em;
   }
 </style>
 
@@ -38,8 +40,12 @@
       <h4>Player</h4>
       <img [src]="heroImgPath" class="rounded combat-image">
       <div class="layout horizontal center justified stats">
-        <div><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
-        <div><i class="ra ra-two-hearts ra-lg"></i> {{game.player.hp}}</div>
+        <div class="layout horizontal"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+
+        <div class="layout horizontal center" style="width: 100px;">
+          <i class="ra ra-two-hearts ra-lg"></i>
+          <material-progress class="flex" [activeProgress]="playerHPPercentage"></material-progress>
+        </div>
       </div>
     </div>
     <div class="col">

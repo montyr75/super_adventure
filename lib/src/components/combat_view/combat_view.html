@@ -3,10 +3,6 @@
     font-size: 2em;
   }
 
-  .button-bar {
-    margin-top: 1em;
-  }
-
   .monster-preview {
     max-height: 300px;
   }
@@ -15,8 +11,39 @@
     height: 200px;
   }
 
-  .stats {
+  .weapon-image {
+    max-height: 100px;
+  }
+
+  .top-space {
     margin-top: 1em;
+  }
+
+  messages-view {
+    overflow-y: hidden;
+    height: 80vh;
+  }
+
+  .outer-box {
+    position: relative;
+  }
+
+  .outer-box .inner-box {
+    background: red;
+    opacity: 0;
+    padding: 0;
+    transition: opacity .5s;
+  }
+
+  .outer-box .inner-box p {
+    color: #fff;
+    line-height: 150px;
+    text-align: center;
+  }
+
+  .inner-box.showoverlay {
+    opacity: .6 !important;
+    transition: opacity .5s !important;
   }
 </style>
 
@@ -25,45 +52,67 @@
 
   <img [src]="monsterImgPath" class="rounded monster-preview">
 
-  <div class="layout horizontal button-bar">
-    <button type="button" class="btn btn-dark loc" style="margin-right: 3em;" (click)="inCombat = true">Fight</button>
-    <button type="button" class="btn btn-dark loc" (click)="flee()">Flee</button>
+  <div class="layout horizontal top-space">
+    <button type="button" class="btn btn-danger loc" style="margin-right: 3em;" (click)="inCombat = true">Fight</button>
+    <button type="button" class="btn btn-warning loc" (click)="game.flee()">Flee</button>
   </div>
 </div>
 
 <div *ngIf="inCombat" class="container">
   <div class="row">
-    <div class="col-6 layout vertical center">
+    <div class="col-5 layout vertical center">
       <div class="announcement">{{game.player.name ?? 'Hero'}}</div>
 
       <div class="layout vertical center">
-        <img [src]="heroImgPath" class="combat-image">
+        <div class="outer-box">
+          <img [src]="heroImgPath" class="combat-image">
+          <div class="inner-box fit" [class.showoverlay]="game.player.isDead">
+            <p>Dead</p>
+          </div>
+        </div>
         <material-progress class="flex" [activeProgress]="percent(game.player.hp, game.player.maxHP)"></material-progress>
       </div>
 
-      <div class="layout horizontal stats"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+      <div class="layout horizontal top-space"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
 
-      <div class="layout vertical" style="width: 100%;">
-        <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger" (click)="attack(weapon)" style="text-align: left;">
-          <div>{{weapon.name}}</div>
-          <div>+{{game.player.attackBonus}} / {{weapon.dmgFormula}}</div>
+      <div class="layout vertical top-space">
+        <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger"
+                (click)="attack(weapon)"
+                [disabled]="game.monster.isDead && !game.player.isDead">
+          <img [src]="weapon.imgPath" class="weapon-image">
+          <div style="margin-top: .5em;">{{weapon.name}}</div>
+          <small>+{{game.player.attackBonus}} / {{weapon.dmgFormula}}</small>
         </button>
+      </div>
+
+      <div class="top-space">
+        <button *ngIf="!game.monster.isDead && !game.player.isDead" type="button" class="btn btn-warning loc" (click)="game.flee()">Flee</button>
+        <button *ngIf="game.monster.isDead" type="button" class="btn btn-success loc" (click)="game.endCombat()">Return to {{game.location.name}}</button>
+        <button *ngIf="game.player.isDead" type="button" class="btn btn-secondary loc" (click)="game.endCombat()">Start Again</button>
       </div>
     </div>
 
-    <div class="col">
-      <div>{{message}}</div>
-    </div>
+    <messages-view class="col flex layout vertical" [messages]="messages"></messages-view>
+
+    <!--<div class="col" style="padding-top: 5em;">-->
+      <!--<div [safeInnerHtml]="message?.htmlText"></div>-->
+    <!--</div>-->
 
     <div class="col layout vertical center">
       <div class="announcement" [safeInnerHtml]="game.monster.htmlName"></div>
 
       <div class="layout vertical center">
-        <img [src]="monsterImgPath" class="combat-image">
+        <div class="outer-box">
+          <img [src]="monsterImgPath" class="combat-image">
+          <div class="inner-box fit" [class.showoverlay]="game.monster.isDead">
+            <p>Dead</p>
+          </div>
+        </div>
+
         <material-progress class="flex" [activeProgress]="percent(game.monster.hp, game.monster.maxHP)"></material-progress>
       </div>
 
-      <div class="layout horizontal stats"><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
+      <div class="layout horizontal top-space"><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
     </div>
   </div>
 </div>

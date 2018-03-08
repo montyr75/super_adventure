@@ -73,12 +73,7 @@ class Game {
     _checkMonsters(location);
   }
 
-  void playerAttack(Weapon weapon) {
-    if (monster == null) {
-      _message(new Message("There is nothing to attack here."));
-      return;
-    }
-
+  String playerAttack(Weapon weapon) {
     StringBuffer sb = new StringBuffer();
 
     if (Attack.hit(weapon.attack(mod: player.attackBonus), monster.details.ac)) {
@@ -97,18 +92,20 @@ class Game {
       sb.writeln("The ${monster.htmlName} dies!");
       sb.writeln();
       sb.write(_rewardPlayer(xp: monster.details.xp, gold: monster.details.gold, items: monster.details.loot()));
-
-      _monster = null;
     }
     else {
       sb.write(_monsterAttack());
     }
 
-    _message(new Message(sb.toString()));
+    return sb.toString();
   }
 
   void flee() {
     _message(new Message("You bravely flee from the ${_monster.htmlName}."));
+    endCombat();
+  }
+
+  void endCombat() {
     _monster = null;
   }
 
@@ -127,14 +124,16 @@ class Game {
 
     if (player.isDead) {
       sb.writeln();
-      sb.writeln("You have died....");
-
-      _monster = null;
-
-      movePlayer(_world.locations[LocationID.home]);
+      sb.writeln("<strong style='color: red'>You have died....</strong>");
     }
 
     return sb.toString();
+  }
+
+  void playerDies() {
+    _monster = null;
+
+    movePlayer(_world.locations[LocationID.home]);
   }
 
   bool _checkForRequiredItem(Location loc) {
@@ -189,8 +188,6 @@ class Game {
   void _checkMonsters(Location loc) {
     if (loc.hasMonster) {
       _monster = new LiveMonster(loc.monster);
-
-      _message(new Message("You see a ${monster.htmlName}!"));
     }
     else {
       _monster = null;

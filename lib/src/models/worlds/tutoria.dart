@@ -42,7 +42,7 @@ class Tutoria implements World {
         new LootItem(items[ItemID.snakeFang], 50),
         new LootItem(items[ItemID.snakeSkin], 70)
       ]),
-      MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 10, 50, <LootItem>[
+      MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 50, 50, <LootItem>[
         new LootItem(items[ItemID.spiderFang], 75),
         new LootItem(items[ItemID.spiderSilk], 75)
       ])

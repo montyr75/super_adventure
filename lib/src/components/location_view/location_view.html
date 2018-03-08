@@ -11,13 +11,20 @@
   button.explore {
     margin: 5px;
   }
+
+  .location {
+    height: 300px;
+    padding: .5em;
+    margin-bottom: 1em;
+  }
 </style>
 
 <div class="layout vertical">
-  <div>
+  <div class="location table-bordered">
     <h4 [safeInnerHtml]="location?.name"></h4>
     <p>{{location?.description}}</p>
   </div>
+
   <div class="layout vertical center">
     <button type="button" class="btn btn-dark loc" [disabled]="!location?.N" (click)="move(Direction.north)">N</button>
 

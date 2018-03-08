@@ -7,12 +7,13 @@ import '../../models/global.dart';
 import '../../models/message.dart';
 import '../../models/items/weapon.dart';
 import '../../utils/utils.dart';
+import '../messages_view/messages_view.dart';
 
 import '../../directives/safe_inner_html.dart';
 
 @Component(selector: 'combat-view',
     templateUrl: 'combat_view.html',
-    directives: const [CORE_DIRECTIVES, SafeInnerHtml, MaterialProgressComponent],
+    directives: const [CORE_DIRECTIVES, SafeInnerHtml, MaterialProgressComponent, MessagesView],
     exports: const [percent]
 )
 class CombatView {
@@ -21,23 +22,18 @@ class CombatView {
 
   bool inCombat = false;
 
-  Message _message;
+  List<Message> _messages = [];
 
   CombatView(LoggerService this._log, Game this._game) {
     _log.info("$runtimeType()");
   }
 
-  void flee() {
-    inCombat = false;
-    game.flee();
-  }
-
   void attack(Weapon weapon) {
-
+    _messages.add(new Message(game.playerAttack(weapon)));
   }
 
   Game get game => _game;
-  Message get message => _message;
+  List<Message> get messages => _messages;
 
   String get heroImgPath => "$IMAGE_PATH/hero.jpg";
   String get monsterImgPath => game.monster.details.imgPath;

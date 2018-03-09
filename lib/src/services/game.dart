@@ -7,6 +7,7 @@ import '../models/creatures/live_monster.dart';
 import '../models/creatures/attack.dart';
 import '../models/items/item.dart';
 import '../models/items/inventory_item.dart';
+import '../models/items/healing_potion.dart';
 import '../models/items/weapon.dart';
 import '../models/location.dart';
 import '../models/message.dart';
@@ -43,11 +44,6 @@ class Game {
   }
 
   void movePlayer(Location loc) {
-    // running away, eh?
-    if (_monster != null) {
-      flee();
-    }
-    
     // player heals during travel
     player.heal();
 
@@ -58,7 +54,9 @@ class Game {
     _location = loc;
 
     _checkQuests(loc);
-    _checkMonsters(loc);
+
+    // let's try checking for monsters only on explore
+//    _checkMonsters(loc);
   }
 
   void explore() {
@@ -100,7 +98,7 @@ class Game {
     return sb.toString();
   }
 
-  void flee() {
+  void playerFlee() {
     _message(new Message("You bravely flee from the ${_monster.htmlName}."));
     endCombat();
   }
@@ -131,9 +129,17 @@ class Game {
   }
 
   void playerDies() {
-    _monster = null;
+    endCombat();
 
     movePlayer(_world.locations[LocationID.home]);
+  }
+
+  String playerDrinkHealingPotion(InventoryItem potion) {
+    int hp = (potion.details as HealingPotion).activate();
+    player.heal();
+    player.loseItem(potion.details);
+
+    return "You consume a ${potion.details.htmlName}, restoring $hp hit points.";
   }
 
   bool _checkForRequiredItem(Location loc) {

@@ -140,4 +140,5 @@ class Player extends Object with LiveCreature {
   List<InventoryItem> get inventory => _inventory;
   List<PlayerQuest> get quests => _quests;
   List<Weapon> get weapons => inventory.where((InventoryItem item) => item.details.type == 'weapon').map((InventoryItem item) => item.details).toList();
+  List<InventoryItem> get potions => inventory.where((InventoryItem item) => item.details.type == 'potion').toList();
 }

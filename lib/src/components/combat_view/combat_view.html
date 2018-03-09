@@ -45,6 +45,10 @@
     opacity: .6 !important;
     transition: opacity .5s !important;
   }
+
+  material-progress ::ng-deep .active-progress {
+    background-color: red;
+  }
 </style>
 
 <div *ngIf="!inCombat" class="layout vertical center">
@@ -54,7 +58,7 @@
 
   <div class="layout horizontal top-space">
     <button type="button" class="btn btn-danger loc" style="margin-right: 3em;" (click)="inCombat = true">Fight</button>
-    <button type="button" class="btn btn-warning loc" (click)="game.flee()">Flee</button>
+    <button type="button" class="btn btn-warning loc" (click)="game.playerFlee()">Flee</button>
   </div>
 </div>
 
@@ -78,17 +82,27 @@
       <div class="layout vertical top-space">
         <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger"
                 (click)="attack(weapon)"
-                [disabled]="game.monster.isDead && !game.player.isDead">
+                [disabled]="game.monster.isDead || game.player.isDead">
           <img [src]="weapon.imgPath" class="weapon-image">
           <div style="margin-top: .5em;">{{weapon.name}}</div>
           <small>+{{game.player.attackBonus}} / {{weapon.dmgFormula}}</small>
         </button>
       </div>
 
+      <div class="layout vertical top-space">
+        <button *ngFor="let potion of game.player.potions" type="button" class="layout vertical center btn btn-outline-secondary"
+                (click)="drinkHealingPotion(potion)"
+                [disabled]="game.player.isDead">
+          <!--<img [src]="weapon.imgPath" class="weapon-image">-->
+          <div style="margin-top: .5em;">{{potion.name}}</div>
+          <small>{{potion.details.hpToHealFormula}}</small>
+        </button>
+      </div>
+
       <div class="top-space">
-        <button *ngIf="!game.monster.isDead && !game.player.isDead" type="button" class="btn btn-warning loc" (click)="game.flee()">Flee</button>
+        <button *ngIf="!game.monster.isDead && !game.player.isDead" type="button" class="btn btn-warning loc" (click)="game.playerFlee()">Flee</button>
         <button *ngIf="game.monster.isDead" type="button" class="btn btn-success loc" (click)="game.endCombat()">Return to {{game.location.name}}</button>
-        <button *ngIf="game.player.isDead" type="button" class="btn btn-secondary loc" (click)="game.endCombat()">Start Again</button>
+        <button *ngIf="game.player.isDead" type="button" class="btn btn-secondary loc" (click)="game.playerDies()">Start Again</button>
       </div>
     </div>
 
@@ -113,6 +127,13 @@
       </div>
 
       <div class="layout horizontal top-space"><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
+
+      <ul class="list-group top-space">
+        <li class="list-group-item layout vertical center">
+          <div style="margin-top: .5em;">{{game.monster.details.attack.name}}</div>
+          <small>+{{game.monster.details.attack.mod}} / {{game.monster.details.attack.dmgFormula}}</small>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

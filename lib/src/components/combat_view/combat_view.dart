@@ -6,6 +6,7 @@ import '../../services/game.dart';
 import '../../models/global.dart';
 import '../../models/message.dart';
 import '../../models/items/weapon.dart';
+import '../../models/items/inventory_item.dart';
 import '../../utils/utils.dart';
 import '../messages_view/messages_view.dart';
 
@@ -30,6 +31,10 @@ class CombatView {
 
   void attack(Weapon weapon) {
     _messages.add(new Message(game.playerAttack(weapon)));
+  }
+
+  void drinkHealingPotion(InventoryItem potion) {
+    _messages.add(new Message(game.playerDrinkHealingPotion(potion)));
   }
 
   Game get game => _game;

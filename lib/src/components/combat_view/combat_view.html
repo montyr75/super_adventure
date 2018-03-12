@@ -77,7 +77,7 @@
         <material-progress class="flex" [activeProgress]="percent(game.player.hp, game.player.maxHP)"></material-progress>
       </div>
 
-      <div class="layout horizontal top-space"><i class="ra ra-helmet ra-lg"></i> {{game.player.ac}}</div>
+      <div class="layout horizontal top-space"><i class="ra ra-shield ra-lg"></i> {{game.player.ac}}</div>
 
       <div class="layout vertical top-space">
         <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger"
@@ -126,7 +126,7 @@
         <material-progress class="flex" [activeProgress]="percent(game.monster.hp, game.monster.maxHP)"></material-progress>
       </div>
 
-      <div class="layout horizontal top-space"><i class="ra ra-helmet ra-lg"></i> {{game.monster.details.ac}}</div>
+      <div class="layout horizontal top-space"><i class="ra ra-shield ra-lg"></i> {{game.monster.details.ac}}</div>
 
       <ul class="list-group top-space">
         <li class="list-group-item layout vertical center">

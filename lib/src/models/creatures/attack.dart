@@ -13,13 +13,13 @@ class Attack {
     _dmg = new DiceExpression.fromFormula(dmgFormula);
   }
 
-  static bool hit(int attackRoll, int defenderAC) {
-    print("Attack: $attackRoll  AC: $defenderAC");
-    return attackRoll >= defenderAC;
-  }
+  static bool hit(int attackRoll, int defenderAC) => attackRoll >= defenderAC;
 
-  int attack() => Roller.rollDie(20) + mod;
+  int attack({int modOverride}) => Roller.rollDie(20) + (modOverride ?? mod);
   int damage() => Roller.rollDiceExp(_dmg);
+
+  RollResult attackVerbose({int modOverride}) => Roller.roll(1, 20, modOverride ?? mod);
+  RollResult damageVerbose() => Roller.rollExp(_dmg);
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
 }

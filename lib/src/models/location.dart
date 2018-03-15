@@ -12,11 +12,11 @@ class Location {
   // optionals
   final Item itemToEnter;
   final Quest quest;
-  final Monster monster;
+  final List<LocationMonster> monsters;
 
   final Map<Direction, Location> destinations = {};
 
-  Location(this.id, this.name, this.description, {this.itemToEnter, this.quest, this.monster});
+  Location(this.id, this.name, this.description, {this.itemToEnter, this.quest, this.monsters});
 
   void linkLocations({Location north, Location east, Location south, Location west}) {
     destinations[Direction.north] = north;
@@ -27,7 +27,7 @@ class Location {
 
   bool get requiresItemToEnter => itemToEnter != null;
   bool get hasQuest => quest != null;
-  bool get hasMonster => monster != null;
+  bool get hasMonster => monsters != null && monsters.isNotEmpty;
 
   // travel destinations
   Location get north => destinations[Direction.north];
@@ -42,6 +42,9 @@ class Location {
   bool get W => west != null;
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
+
+  // temporary
+  LocationMonster get monster => hasMonster ? monsters.first : null;
 }
 
 enum LocationID {

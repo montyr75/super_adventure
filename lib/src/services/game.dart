@@ -3,7 +3,7 @@ import 'package:angular/angular.dart';
 import 'logger_service.dart';
 import '../models/worlds/world.dart';
 import '../models/creatures/player.dart';
-import '../models/creatures/live_monster.dart';
+import '../models/creatures/monster.dart';
 import '../models/creatures/attack.dart';
 import '../models/items/item.dart';
 import '../models/items/inventory_item.dart';
@@ -11,6 +11,7 @@ import '../models/items/healing_potion.dart';
 import '../models/items/weapon.dart';
 import '../models/location.dart';
 import '../models/message.dart';
+import '../utils/roller.dart';
 
 @Injectable()
 class Game {
@@ -71,31 +72,38 @@ class Game {
     _checkMonsters(location);
   }
 
-  String playerAttack(Weapon weapon) {
+  void playerAttack(Weapon weapon) {
     StringBuffer sb = new StringBuffer();
 
-    if (Attack.hit(weapon.attack(mod: player.attackBonus), monster.details.ac)) {
-      int dmg = weapon.damage();
-      monster.hurt(dmg);
+    RollResult attackResult = weapon.attackVerbose(mod: player.attackBonus);
 
-      sb.writeln("You strike the ${monster.htmlName} with your ${weapon.htmlName} for <strong>$dmg</strong> damage.");
+    sb.writeln("${weapon.htmlName}: ${attackResult.toHTMLString()}");
+
+    if (Attack.hit(attackResult.finalTotal, monster.details.ac)) {
+      RollResult dmgResult = weapon.damageVerbose();
+      monster.hurt(dmgResult.finalTotal);
+
+      sb.writeln("Damage: ${dmgResult.toHTMLString()}");
+      sb.writeln();
+      sb.writeln("You strike the ${monster.htmlName} with your ${weapon.htmlName} for <strong>${dmgResult.finalTotal}</strong> damage.");
     }
     else {
+      sb.writeln();
       sb.writeln("You attack the ${monster.htmlName} with your ${weapon.htmlName}, but you miss!");
     }
 
-    sb.writeln();
-
     if (monster.isDead) {
+      sb.writeln();
       sb.writeln("The ${monster.htmlName} dies!");
       sb.writeln();
-      sb.write(_rewardPlayer(xp: monster.details.xp, gold: monster.details.gold, items: monster.details.loot()));
+      sb.write(_rewardPlayer(xp: monster.details.xp, gold: monster.details.gold, items: monster.loot()));
     }
     else {
+      sb.write("<hr style='width: 50%'>");
       sb.write(_monsterAttack());
     }
 
-    return sb.toString();
+    _message(new Message(sb.toString()));
   }
 
   void playerFlee() {
@@ -107,16 +115,39 @@ class Game {
     _monster = null;
   }
 
+  void playerDies() {
+    endCombat();
+
+    movePlayer(_world.locations[LocationID.home]);
+  }
+
+  void playerDrinkHealingPotion(InventoryItem potion) {
+    int hp = (potion.details as HealingPotion).activate();
+    player.heal();
+    player.loseItem(potion.details);
+
+    _message(new Message("You consume a ${potion.details.htmlName}, restoring $hp hit points."));
+  }
+
+  void clearMessages() => _messages.clear();
+
   String _monsterAttack() {
     StringBuffer sb = new StringBuffer();
 
-    if (Attack.hit(monster.details.attackRoll(), player.ac)) {
-      int dmg = monster.details.damageRoll();
-      player.hurt(dmg);
+    RollResult attackResult = monster.attackVerbose();
 
-      sb.writeln("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for <strong>$dmg</strong> damage.");
+    sb.writeln("${monster.htmlName} ${monster.details.attack.htmlName}: ${attackResult.toHTMLString()}");
+
+    if (Attack.hit(attackResult.finalTotal, player.ac)) {
+      RollResult dmgResult = monster.damageVerbose();
+      player.hurt(dmgResult.finalTotal);
+
+      sb.writeln("Damage: ${dmgResult.toHTMLString()}");
+      sb.writeln();
+      sb.writeln("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for <strong>${dmgResult.finalTotal}</strong> damage.");
     }
     else {
+      sb.writeln();
       sb.writeln("The ${monster.htmlName} attacks you with a ${monster.details.attack.htmlName} and misses you!");
     }
 
@@ -126,20 +157,6 @@ class Game {
     }
 
     return sb.toString();
-  }
-
-  void playerDies() {
-    endCombat();
-
-    movePlayer(_world.locations[LocationID.home]);
-  }
-
-  String playerDrinkHealingPotion(InventoryItem potion) {
-    int hp = (potion.details as HealingPotion).activate();
-    player.heal();
-    player.loseItem(potion.details);
-
-    return "You consume a ${potion.details.htmlName}, restoring $hp hit points.";
   }
 
   bool _checkForRequiredItem(Location loc) {
@@ -193,7 +210,7 @@ class Game {
 
   void _checkMonsters(Location loc) {
     if (loc.hasMonster) {
-      _monster = new LiveMonster(loc.monster);
+      _monster = loc.monster.spawn();
     }
     else {
       _monster = null;

@@ -1,4 +1,5 @@
 import 'attack.dart';
+import 'live_creature.dart';
 import '../global.dart';
 import '../items/loot_item.dart';
 import '../items/inventory_item.dart';
@@ -20,15 +21,33 @@ class Monster {
 
   Monster(this.id, this.name, this.hpFormula, this.ac, this.attack, this.xp, this.gold, [this._lootTable]);
 
-  int attackRoll() => attack.attack();
-  int damageRoll() => attack.damage();
+  DiceExpression get dmg => _dmg;
+
+  String get imgPath => "$MONSTER_IMAGE_PATH/${imgFromName(name)}";
+}
+
+class LiveMonster extends Object with LiveCreature {
+  static const String NAME_COLOR = "purple";
+
+  final Monster _details;
+
+  LiveMonster(this._details) {
+    setMaxHPByFormula(details.hpFormula);
+    heal();
+  }
+
+  int attack() => details.attack.attack();
+  int damage() => details.attack.damage();
+
+  RollResult attackVerbose() => details.attack.attackVerbose();
+  RollResult damageVerbose() => details.attack.damageVerbose();
 
   List<InventoryItem> loot() {
-    if (_lootTable != null && _lootTable.isNotEmpty) {
+    if (details._lootTable != null && details._lootTable.isNotEmpty) {
       List<InventoryItem> items = [];
 
       // add drops
-      for (LootItem item in _lootTable) {
+      for (LootItem item in details._lootTable) {
         if (Roller.rollDie(100) <= item.dropPercentage) {
           items.add(new InventoryItem(item.details, 1));
         }
@@ -40,9 +59,20 @@ class Monster {
     return null;
   }
 
-  DiceExpression get dmg => _dmg;
+  Monster get details => _details;
 
-  String get imgPath => "$MONSTER_IMAGE_PATH/${imgFromName(name)}";
+  String get htmlName => '<span style="color: $NAME_COLOR;">${details.name}</span>';
+}
+
+class LocationMonster {
+  final Monster details;
+  int _appearancePercentage;    // in the future, this may be adjustable
+
+  LocationMonster(this.details, this._appearancePercentage);
+
+  LiveMonster spawn() => new LiveMonster(details);
+
+  int get appearancePercentage => _appearancePercentage;
 }
 
 enum MonsterID {

@@ -57,7 +57,7 @@
   <img [src]="monsterImgPath" class="rounded monster-preview">
 
   <div class="layout horizontal top-space">
-    <button type="button" class="btn btn-danger loc" style="margin-right: 3em;" (click)="inCombat = true">Fight</button>
+    <button type="button" class="btn btn-danger loc" style="margin-right: 3em;" (click)="startCombat()">Fight</button>
     <button type="button" class="btn btn-warning loc" (click)="game.playerFlee()">Flee</button>
   </div>
 </div>
@@ -81,7 +81,7 @@
 
       <div class="layout vertical top-space">
         <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger"
-                (click)="attack(weapon)"
+                (click)="game.playerAttack(weapon)"
                 [disabled]="game.monster.isDead || game.player.isDead">
           <img [src]="weapon.imgPath" class="weapon-image">
           <div style="margin-top: .5em;">{{weapon.name}}</div>
@@ -91,7 +91,7 @@
 
       <div class="layout vertical top-space">
         <button *ngFor="let potion of game.player.potions" type="button" class="layout vertical center btn btn-outline-secondary"
-                (click)="drinkHealingPotion(potion)"
+                (click)="game.playerDrinkHealingPotion(potion)"
                 [disabled]="game.player.isDead">
           <!--<img [src]="weapon.imgPath" class="weapon-image">-->
           <div style="margin-top: .5em;">{{potion.name}}</div>
@@ -101,12 +101,12 @@
 
       <div class="top-space">
         <button *ngIf="!game.monster.isDead && !game.player.isDead" type="button" class="btn btn-warning loc" (click)="game.playerFlee()">Flee</button>
-        <button *ngIf="game.monster.isDead" type="button" class="btn btn-success loc" (click)="game.endCombat()">Return to {{game.location.name}}</button>
+        <button *ngIf="game.monster.isDead" type="button" class="btn btn-success loc" (click)="endCombat()">Return to {{game.location.name}}</button>
         <button *ngIf="game.player.isDead" type="button" class="btn btn-secondary loc" (click)="game.playerDies()">Start Again</button>
       </div>
     </div>
 
-    <messages-view class="col flex layout vertical" [messages]="messages"></messages-view>
+    <messages-view class="col flex layout vertical" [messages]="game.messages"></messages-view>
 
     <!--<div class="col" style="padding-top: 5em;">-->
       <!--<div [safeInnerHtml]="message?.htmlText"></div>-->

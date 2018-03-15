@@ -1,5 +1,6 @@
 import 'item.dart';
 import '../creatures/attack.dart';
+import '../../utils/roller.dart';
 
 class Weapon extends Item {
   Attack _attack;
@@ -9,8 +10,11 @@ class Weapon extends Item {
     _attack = new Attack(name, 0, dmgFormula);
   }
 
-  int attack({int mod = 0}) => _attack.attack() + mod;
+  int attack({int mod}) => _attack.attack(modOverride: mod);
   int damage() => _attack.damage();
+
+  RollResult attackVerbose({int mod}) => _attack.attackVerbose(modOverride: mod);
+  RollResult damageVerbose() => _attack.damageVerbose();
 
   String get dmgFormula => _attack.dmgFormula;
 }

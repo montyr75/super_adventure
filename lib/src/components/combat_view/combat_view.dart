@@ -4,9 +4,6 @@ import 'package:angular_components/material_progress/material_progress.dart';
 import '../../services/logger_service.dart';
 import '../../services/game.dart';
 import '../../models/global.dart';
-import '../../models/message.dart';
-import '../../models/items/weapon.dart';
-import '../../models/items/inventory_item.dart';
 import '../../utils/utils.dart';
 import '../messages_view/messages_view.dart';
 
@@ -23,22 +20,21 @@ class CombatView {
 
   bool inCombat = false;
 
-  List<Message> _messages = [];
-
   CombatView(LoggerService this._log, Game this._game) {
     _log.info("$runtimeType()");
   }
 
-  void attack(Weapon weapon) {
-    _messages.add(new Message(game.playerAttack(weapon)));
+  void startCombat() {
+    inCombat = true;
+    game.clearMessages();
   }
 
-  void drinkHealingPotion(InventoryItem potion) {
-    _messages.add(new Message(game.playerDrinkHealingPotion(potion)));
+  void endCombat() {
+    game.clearMessages();
+    game.endCombat();
   }
 
   Game get game => _game;
-  List<Message> get messages => _messages;
 
   String get heroImgPath => "$IMAGE_PATH/hero.jpg";
   String get monsterImgPath => game.monster.details.imgPath;

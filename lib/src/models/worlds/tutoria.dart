@@ -74,20 +74,20 @@ class Tutoria implements World {
         quest: quests[QuestID.clearAlchemistsGarden]
       ),
       LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, "Alchemist's Garden", "Many plants are growing here.",
-        monster: monsters[MonsterID.rat]
+        monsters: [new LocationMonster(monsters[MonsterID.rat], 100)]
       ),
       LocationID.farmhouse: new Location(LocationID.farmhouse, "Farmhouse", "There is a small farmhouse, with a farmer in front.",
         quest: quests[QuestID.clearFarmersField]
       ),
       LocationID.farmersField: new Location(LocationID.farmersField, "Farmer's Field", "You see rows of vegetables growing here.",
-        monster: monsters[MonsterID.snake]
+        monsters: [new LocationMonster(monsters[MonsterID.snake], 100)]
       ),
       LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass]
       ),
       LocationID.bridge: new Location(LocationID.bridge, "Bridge", "A stone bridge crosses a wide river."),
       LocationID.spiderForest: new Location(LocationID.spiderForest, "Spider Forest", "You see spider webs covering the trees in this forest.",
-        monster: monsters[MonsterID.giantSpider]
+        monsters: [new LocationMonster(monsters[MonsterID.giantSpider], 100)]
       )
     };
 

@@ -27,5 +27,7 @@ enum ItemID {
   healingPotion,
   spiderFang,
   spiderSilk,
-  adventurerPass
+  adventurerPass,
+  venomSack,
+  longsword
 }

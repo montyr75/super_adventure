@@ -23,6 +23,7 @@ class Tutoria implements World {
     _items = {
       ItemID.rustySword: new Weapon(ItemID.rustySword, "Rusty Sword", "Rusty Swords", "1d4 + 1"),
       ItemID.club: new Weapon(ItemID.club, "Club", "Clubs", "1d6"),
+      ItemID.longsword: new Weapon(ItemID.longsword, "Longsword", "Longswords", "1d8 + 1"),
       ItemID.ratTail: new Item(ItemID.ratTail, "Rat Tail", "Rat Tails"),
       ItemID.pieceOfFur: new Item(ItemID.pieceOfFur, "Piece of Fur", "Pieces of Fur"),
       ItemID.snakeFang: new Item(ItemID.snakeFang, "Snake Fang", "Snake Fangs"),
@@ -30,6 +31,7 @@ class Tutoria implements World {
       ItemID.spiderFang: new Item(ItemID.spiderFang, "Spider Fang", "Spider Fangs"),
       ItemID.spiderSilk: new Item(ItemID.spiderSilk, "Spider Silk", "Spider Silks"),
       ItemID.adventurerPass: new Item(ItemID.adventurerPass, "Adventurer Pass", "Adventurer Passes"),
+      ItemID.venomSack: new Item(ItemID.venomSack, "Venom Sack", "Venom Sacks"),
       ItemID.healingPotion: new HealingPotion("2d4")
     };
 
@@ -53,7 +55,8 @@ class Tutoria implements World {
       MonsterID.swarmOfSpiders: new Monster(MonsterID.swarmOfSpiders, "Swarm of Spiders", "3d8", 12, new Attack("Bites", 3, "2d4"), 35, 0),
       MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 100, 50, <LootItem>[
         new LootItem(items[ItemID.spiderFang], 75),
-        new LootItem(items[ItemID.spiderSilk], 75)
+        new LootItem(items[ItemID.spiderSilk], 75),
+        new LootItem(items[ItemID.venomSack], 50)
       ])
     };
 
@@ -72,6 +75,14 @@ class Tutoria implements World {
         50, gold: 20, item: items[ItemID.adventurerPass],
         questCompletionItems: <InventoryItem>[
           new InventoryItem(items[ItemID.snakeFang], 3)
+        ]
+      ),
+      QuestID.retrieveSpiderVenomSack: new Quest(QuestID.retrieveSpiderVenomSack,
+        "Retrieve Giant Spider Venom Sack",
+        "Find and kill a giant spider in the Spider Forest. Cut out its venom sack to save the bridge guard's poisoned daughter. For this, the guard will give you a new weapon.",
+        75, gold: 35, item: items[ItemID.longsword],
+        questCompletionItems: <InventoryItem>[
+          new InventoryItem(items[ItemID.venomSack])
         ]
       )
     };
@@ -98,7 +109,8 @@ class Tutoria implements World {
         ]
       ),
       LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
-        itemToEnter: items[ItemID.adventurerPass]
+        itemToEnter: items[ItemID.adventurerPass],
+        quest: quests[QuestID.retrieveSpiderVenomSack]
       ),
       LocationID.bridge: new Location(LocationID.bridge, "Bridge", "A stone bridge crosses a wide river."),
       LocationID.spiderForest: new Location(LocationID.spiderForest, "Spider Forest", "You see spider webs covering the trees in this forest.",

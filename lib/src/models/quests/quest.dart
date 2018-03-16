@@ -39,5 +39,6 @@ class Quest {
 
 enum QuestID {
   clearAlchemistsGarden,
-  clearFarmersField
+  clearFarmersField,
+  retrieveSpiderVenomSack
 }

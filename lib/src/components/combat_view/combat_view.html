@@ -12,7 +12,7 @@
   }
 
   .weapon-image {
-    max-height: 100px;
+    max-height: 75px;
   }
 
   .top-space {
@@ -92,7 +92,6 @@
       <button *ngFor="let potion of game.player.potions" type="button" class="layout vertical center btn btn-outline-secondary"
               (click)="game.playerDrinkHealingPotion(potion)"
               [disabled]="game.player.isDead">
-        <!--<img [src]="weapon.imgPath" class="weapon-image">-->
         <div style="margin-top: .5em;">{{potion.name}}</div>
         <small>{{potion.details.hpToHealFormula}}</small>
       </button>
@@ -106,10 +105,6 @@
   </div>
 
   <messages-view class="flex layout vertical" [messages]="game.messages"></messages-view>
-
-  <!--<div class="col" style="padding-top: 5em;">-->
-    <!--<div [safeInnerHtml]="message?.htmlText"></div>-->
-  <!--</div>-->
 
   <div class="flex layout vertical center">
     <div class="announcement" [safeInnerHtml]="game.monster.htmlName"></div>

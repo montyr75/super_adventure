@@ -125,7 +125,7 @@ class Game {
 
   void playerDrinkHealingPotion(InventoryItem potion) {
     int hp = (potion.details as HealingPotion).activate();
-    player.heal();
+    player.heal(hp);
     player.loseItem(potion.details);
 
     _message(new Message("You consume a ${potion.details.htmlName}, restoring $hp hit points."));

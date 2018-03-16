@@ -38,11 +38,19 @@ class Tutoria implements World {
         new LootItem(items[ItemID.ratTail], 50),
         new LootItem(items[ItemID.pieceOfFur], 70)
       ]),
+      MonsterID.swarmOfRats: new Monster(MonsterID.swarmOfRats, "Swarm of Rats", "7d8 - 7", 10, new Attack("Bites", 2, "1d6 + 2"), 25, 0, <LootItem>[
+        new LootItem(items[ItemID.ratTail], 90),
+        new LootItem(items[ItemID.pieceOfFur], 90)
+      ]),
       MonsterID.snake: new Monster(MonsterID.snake, "Snake", "1d4 + 1", 12, new Attack("Bite", 3, "1d4"), 10, 0, <LootItem>[
         new LootItem(items[ItemID.snakeFang], 50),
         new LootItem(items[ItemID.snakeSkin], 70)
       ]),
-      MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 50, 50, <LootItem>[
+      MonsterID.spider: new Monster(MonsterID.spider, "Spider", "1d4 - 1", 12, new Attack("Bite", 4, "1d1"), 5, 0, <LootItem>[
+        new LootItem(items[ItemID.spiderSilk], 75)
+      ]),
+      MonsterID.swarmOfSpiders: new Monster(MonsterID.swarmOfSpiders, "Swarm of Spiders", "3d8", 12, new Attack("Bites", 3, "2d4"), 35, 0),
+      MonsterID.giantSpider: new Monster(MonsterID.giantSpider, "Giant Spider", "3d10", 14, new Attack("Bite", 5, "1d8 + 3"), 100, 50, <LootItem>[
         new LootItem(items[ItemID.spiderFang], 75),
         new LootItem(items[ItemID.spiderSilk], 75)
       ])
@@ -74,20 +82,27 @@ class Tutoria implements World {
         quest: quests[QuestID.clearAlchemistsGarden]
       ),
       LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, "Alchemist's Garden", "Many plants are growing here.",
-        monsters: [new LocationMonster(monsters[MonsterID.rat], 100)]
+        monsters: [
+          new LocationMonster(monsters[MonsterID.rat], 70),
+          new LocationMonster(monsters[MonsterID.swarmOfRats], 25)
+        ]
       ),
       LocationID.farmhouse: new Location(LocationID.farmhouse, "Farmhouse", "There is a small farmhouse, with a farmer in front.",
         quest: quests[QuestID.clearFarmersField]
       ),
       LocationID.farmersField: new Location(LocationID.farmersField, "Farmer's Field", "You see rows of vegetables growing here.",
-        monsters: [new LocationMonster(monsters[MonsterID.snake], 100)]
+        monsters: [new LocationMonster(monsters[MonsterID.snake], 70)]
       ),
       LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass]
       ),
       LocationID.bridge: new Location(LocationID.bridge, "Bridge", "A stone bridge crosses a wide river."),
       LocationID.spiderForest: new Location(LocationID.spiderForest, "Spider Forest", "You see spider webs covering the trees in this forest.",
-        monsters: [new LocationMonster(monsters[MonsterID.giantSpider], 100)]
+        monsters: [
+          new LocationMonster(monsters[MonsterID.spider], 50),
+          new LocationMonster(monsters[MonsterID.swarmOfSpiders], 30),
+          new LocationMonster(monsters[MonsterID.giantSpider], 40)
+        ]
       )
     };
 

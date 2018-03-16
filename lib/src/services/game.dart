@@ -41,7 +41,7 @@ class Game {
     movePlayer(_world.locations[LocationID.home]);
 
     // player needs a weapon
-    _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword])])));
+    _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword]), new InventoryItem(_world.items[ItemID.adventurerPass])])));
   }
 
   void movePlayer(Location loc) {
@@ -63,13 +63,16 @@ class Game {
   void explore() {
     StringBuffer sb = new StringBuffer("You search the area.");
 
-    if (!location.hasMonster) {
+    LocationMonster lm = location.getMonster();
+
+    if (lm != null) {
+      _monster = lm.spawn();
+    }
+    else {
       sb.write(" You find nothing of interest.");
     }
 
     _message(new Message(sb.toString()));
-
-    _checkMonsters(location);
   }
 
   void playerAttack(Weapon weapon) {
@@ -77,19 +80,18 @@ class Game {
 
     RollResult attackResult = weapon.attackVerbose(mod: player.attackBonus);
 
-    sb.writeln("${weapon.htmlName}: ${attackResult.toHTMLString()}");
+    sb.write("${weapon.htmlName}: ${attackResult.toHTMLString()}");
 
     if (Attack.hit(attackResult.finalTotal, monster.details.ac)) {
+      sb.writeln("&nbsp;&nbsp;<em style='color: red'>Hit!</em>");
+
       RollResult dmgResult = weapon.damageVerbose();
       monster.hurt(dmgResult.finalTotal);
 
       sb.writeln("Damage: ${dmgResult.toHTMLString()}");
-      sb.writeln();
-      sb.writeln("You strike the ${monster.htmlName} with your ${weapon.htmlName} for <strong>${dmgResult.finalTotal}</strong> damage.");
     }
     else {
-      sb.writeln();
-      sb.writeln("You attack the ${monster.htmlName} with your ${weapon.htmlName}, but you miss!");
+      sb.writeln("&nbsp;&nbsp;<em style='color: lime'>Miss!</em>");
     }
 
     if (monster.isDead) {
@@ -136,19 +138,18 @@ class Game {
 
     RollResult attackResult = monster.attackVerbose();
 
-    sb.writeln("${monster.htmlName} ${monster.details.attack.htmlName}: ${attackResult.toHTMLString()}");
+    sb.write("${monster.htmlName} ${monster.details.attack.htmlName}: ${attackResult.toHTMLString()}");
 
     if (Attack.hit(attackResult.finalTotal, player.ac)) {
+      sb.writeln("&nbsp;&nbsp;<em style='color: red'>Hit!</em>");
+
       RollResult dmgResult = monster.damageVerbose();
       player.hurt(dmgResult.finalTotal);
 
       sb.writeln("Damage: ${dmgResult.toHTMLString()}");
-      sb.writeln();
-      sb.writeln("The ${monster.htmlName} strikes you with a ${monster.details.attack.htmlName} for <strong>${dmgResult.finalTotal}</strong> damage.");
     }
     else {
-      sb.writeln();
-      sb.writeln("The ${monster.htmlName} attacks you with a ${monster.details.attack.htmlName} and misses you!");
+      sb.writeln("&nbsp;&nbsp;<em style='color: lime'>Miss!</em>");
     }
 
     if (player.isDead) {
@@ -205,15 +206,6 @@ class Game {
 
         _message(new Message(sb.toString()));
       }
-    }
-  }
-
-  void _checkMonsters(Location loc) {
-    if (loc.hasMonster) {
-      _monster = loc.monster.spawn();
-    }
-    else {
-      _monster = null;
     }
   }
 

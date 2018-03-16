@@ -1,6 +1,7 @@
 import 'items/item.dart';
 import 'quests/quest.dart';
 import 'creatures/monster.dart';
+import '../utils/roller.dart';
 
 class Location {
   static const String NAME_COLOR = "blue";
@@ -43,8 +44,17 @@ class Location {
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
 
-  // temporary
-  LocationMonster get monster => hasMonster ? monsters.first : null;
+  LocationMonster getMonster() {
+    if (hasMonster) {
+      for (LocationMonster monster in monsters) {
+        if (Roller.rollDie(100) <= monster.appearancePercentage && monster.active) {
+          return monster;
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
 enum LocationID {

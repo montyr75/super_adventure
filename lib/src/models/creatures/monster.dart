@@ -66,17 +66,25 @@ class LiveMonster extends Object with LiveCreature {
 
 class LocationMonster {
   final Monster details;
-  int _appearancePercentage;    // in the future, this may be adjustable
+  final int appearancePercentage;
 
-  LocationMonster(this.details, this._appearancePercentage);
+  bool _active;     // only active monsters will ever appear in a location
+
+  LocationMonster(this.details, this.appearancePercentage, [this._active = true]);
 
   LiveMonster spawn() => new LiveMonster(details);
 
-  int get appearancePercentage => _appearancePercentage;
+  void activate() => _active = true;
+  void deactivate() => _active = false;
+
+  bool get active => _active;
 }
 
 enum MonsterID {
   rat,
+  swarmOfRats,
   snake,
+  spider,
+  swarmOfSpiders,
   giantSpider
 }

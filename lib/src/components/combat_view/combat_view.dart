@@ -21,7 +21,7 @@ class CombatView {
   bool inCombat = false;
 
   CombatView(LoggerService this._log, Game this._game) {
-    _log.info("$runtimeType()");
+//    _log.info("$runtimeType()");
   }
 
   void startCombat() {

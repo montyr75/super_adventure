@@ -16,6 +16,6 @@ class MessagesView {
   @Input() List<Message> messages;
 
   MessagesView(LoggerService this._log) {
-    _log.info("$runtimeType()");
+//    _log.info("$runtimeType()");
   }
 }

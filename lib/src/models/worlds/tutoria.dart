@@ -34,6 +34,7 @@ class Tutoria implements World {
     };
 
     _monsters = {
+      MonsterID.killerRabbit: new Monster(MonsterID.killerRabbit, "Killer Rabbit", "5d6", 15, new Attack("Bite", 6, "2d8"), 200, 50),
       MonsterID.rat: new Monster(MonsterID.rat, "Rat", "1d4 - 1", 10, new Attack("Bite", 0, "1d1"), 5, 0, <LootItem>[
         new LootItem(items[ItemID.ratTail], 50),
         new LootItem(items[ItemID.pieceOfFur], 70)
@@ -91,7 +92,10 @@ class Tutoria implements World {
         quest: quests[QuestID.clearFarmersField]
       ),
       LocationID.farmersField: new Location(LocationID.farmersField, "Farmer's Field", "You see rows of vegetables growing here.",
-        monsters: [new LocationMonster(monsters[MonsterID.snake], 70)]
+        monsters: [
+          new LocationMonster(monsters[MonsterID.snake], 70),
+          new LocationMonster(monsters[MonsterID.killerRabbit], 10)
+        ]
       ),
       LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass]

@@ -41,7 +41,7 @@ class Game {
     movePlayer(_world.locations[LocationID.home]);
 
     // player needs a weapon
-    _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword]), new InventoryItem(_world.items[ItemID.adventurerPass])])));
+    _message(new Message(_rewardPlayer(items: [new InventoryItem(_world.items[ItemID.rustySword])])));
   }
 
   void movePlayer(Location loc) {

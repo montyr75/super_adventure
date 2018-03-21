@@ -14,6 +14,8 @@ class WorldMap {
       map[loc.coords.row][loc.coords.col] = loc;
     }
 
+    print(locations);
+
     return new WorldMap(mapWidth, map);
   }
 
@@ -22,7 +24,7 @@ class WorldMap {
     // find the bounding rect
     int firstRow = map.keys.first;
     int lastRow = map.keys.last + 1;
-    int firstCol = 0;
+    int firstCol = mapWidth - 1;
     int lastCol = 0;
 
     // create rows full of null
@@ -57,6 +59,11 @@ class WorldMap {
 
     return locs;
   }
+
+  Location north(Location start) => map[start.coords.row - 1] != null ? map[start.coords.row - 1][start.coords.col] : null;
+  Location east(Location start) => map[start.coords.row] != null ? map[start.coords.row][start.coords.col + 1] : null;
+  Location south(Location start) => map[start.coords.row + 1] != null ? map[start.coords.row + 1][start.coords.col] : null;
+  Location west(Location start) => map[start.coords.row] != null ? map[start.coords.row][start.coords.col - 1] : null;
 
   @override String toString() {
     List<List<Location>> locs = toList();

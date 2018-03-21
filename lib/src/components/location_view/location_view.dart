@@ -5,6 +5,7 @@ import 'package:angular/angular.dart';
 import '../../services/logger_service.dart';
 import '../../services/game.dart';
 import '../../models/locations/location.dart';
+import '../../models/locations/world_map.dart';
 
 import '../../directives/safe_inner_html.dart';
 
@@ -29,9 +30,21 @@ class LocationView {
     _log.info("$runtimeType()");
   }
 
-  void move(Direction dir) => _onMove.add(location.destinations[dir]);
+  void move(Direction dir) {
+    Location destination;
+
+    switch (dir) {
+      case Direction.north: destination = worldMap.north(location); break;
+      case Direction.east: destination = worldMap.east(location); break;
+      case Direction.south: destination = worldMap.south(location); break;
+      case Direction.west: destination = worldMap.west(location); break;
+    }
+
+    _onMove.add(destination);
+  }
 
   void explore() => _onExplore.add(null);
 
   Game get game => _game;
+  WorldMap get worldMap => game.worldMap;
 }

@@ -89,32 +89,32 @@ class Tutoria implements World {
     };
 
     _locations = {
-      LocationID.home: new Location(LocationID.home, const MapCoords(0, 0), "Home", "Your house. You really need to clean up the place."),
-      LocationID.townSquare: new Location(LocationID.townSquare, const MapCoords(0, 0), "Town Square", "You see a fountain."),
-      LocationID.alchemistsHut: new Location(LocationID.alchemistsHut, const MapCoords(0, 0), "Alchemist's Hut", "There are many strange plants on the shelves.",
+      LocationID.home: new Location(LocationID.home, const MapCoords(19, 10), "Home", "Your house. You really need to clean up the place."),
+      LocationID.townSquare: new Location(LocationID.townSquare, const MapCoords(18, 10), "Town Square", "You see a fountain."),
+      LocationID.alchemistsHut: new Location(LocationID.alchemistsHut, const MapCoords(17, 10), "Alchemist's Hut", "There are many strange plants on the shelves.",
         quest: quests[QuestID.clearAlchemistsGarden]
       ),
-      LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, const MapCoords(0, 0), "Alchemist's Garden", "Many plants are growing here.",
+      LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, const MapCoords(16, 10), "Alchemist's Garden", "Many plants are growing here.",
         monsters: [
           new LocationMonster(monsters[MonsterID.rat], 70),
           new LocationMonster(monsters[MonsterID.swarmOfRats], 25)
         ]
       ),
-      LocationID.farmhouse: new Location(LocationID.farmhouse, const MapCoords(0, 0), "Farmhouse", "There is a small farmhouse, with a farmer in front.",
+      LocationID.farmhouse: new Location(LocationID.farmhouse, const MapCoords(18, 9), "Farmhouse", "There is a small farmhouse, with a farmer in front.",
         quest: quests[QuestID.clearFarmersField]
       ),
-      LocationID.farmersField: new Location(LocationID.farmersField, const MapCoords(0, 0), "Farmer's Field", "You see rows of vegetables growing here.",
+      LocationID.farmersField: new Location(LocationID.farmersField, const MapCoords(18, 8), "Farmer's Field", "You see rows of vegetables growing here.",
         monsters: [
           new LocationMonster(monsters[MonsterID.snake], 70),
           new LocationMonster(monsters[MonsterID.killerRabbit], 10)
         ]
       ),
-      LocationID.guardPost: new Location(LocationID.guardPost, const MapCoords(0, 0), "Guard Post", "There is a large, tough-looking guard here.",
+      LocationID.guardPost: new Location(LocationID.guardPost, const MapCoords(18, 11), "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass],
         quest: quests[QuestID.retrieveSpiderVenomSack]
       ),
-      LocationID.bridge: new Location(LocationID.bridge, const MapCoords(0, 0), "Bridge", "A stone bridge crosses a wide river."),
-      LocationID.spiderForest: new Location(LocationID.spiderForest, const MapCoords(0, 0), "Spider Forest", "You see spider webs covering the trees in this forest.",
+      LocationID.bridge: new Location(LocationID.bridge, const MapCoords(18, 12), "Bridge", "A stone bridge crosses a wide river."),
+      LocationID.spiderForest: new Location(LocationID.spiderForest, const MapCoords(18, 13), "Spider Forest", "You see spider webs covering the trees in this forest.",
         monsters: [
           new LocationMonster(monsters[MonsterID.spider], 50),
           new LocationMonster(monsters[MonsterID.swarmOfSpiders], 30),
@@ -122,54 +122,11 @@ class Tutoria implements World {
         ]
       )
     };
-
-    // link locations together
-    locations[LocationID.home].linkLocations(
-      north: locations[LocationID.townSquare]
-    );
-
-    locations[LocationID.townSquare].linkLocations(
-      north: locations[LocationID.alchemistsHut],
-      east: locations[LocationID.guardPost],
-      south: locations[LocationID.home],
-      west: locations[LocationID.farmhouse]
-    );
-
-    locations[LocationID.farmhouse].linkLocations(
-      east: locations[LocationID.townSquare],
-      west: locations[LocationID.farmersField]
-    );
-
-    locations[LocationID.farmersField].linkLocations(
-      east: locations[LocationID.farmhouse]
-    );
-
-    locations[LocationID.alchemistsHut].linkLocations(
-      north: locations[LocationID.alchemistsGarden],
-      south: locations[LocationID.townSquare]
-    );
-
-    locations[LocationID.alchemistsGarden].linkLocations(
-      south: locations[LocationID.alchemistsHut]
-    );
-
-    locations[LocationID.guardPost].linkLocations(
-      east: locations[LocationID.bridge],
-      west: locations[LocationID.townSquare]
-    );
-
-    locations[LocationID.bridge].linkLocations(
-      east: locations[LocationID.spiderForest],
-      west: locations[LocationID.guardPost]
-    );
-
-    locations[LocationID.spiderForest].linkLocations(
-      west: locations[LocationID.bridge]
-    );
   }
 
   Map<ItemID, Item> get items => _items;
   Map<MonsterID, Monster> get monsters => _monsters;
   Map<QuestID, Quest> get quests => _quests;
   Map<LocationID, Location> get locations => _locations;
+  List<Location> get locationsList => locations.values.toList()..sort();
 }

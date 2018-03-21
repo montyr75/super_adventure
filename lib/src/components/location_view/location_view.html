@@ -26,14 +26,14 @@
   </div>
 
   <div class="layout vertical center">
-    <button type="button" class="btn btn-dark loc" [disabled]="!location?.N" (click)="move(Direction.north)">N</button>
+    <button type="button" class="btn btn-dark loc" [disabled]="worldMap.north(location) == null" (click)="move(Direction.north)">N</button>
 
     <div class="layout horizontal center">
-      <button type="button" class="btn btn-dark loc" [disabled]="!location?.W" (click)="move(Direction.west)">W</button>
+      <button type="button" class="btn btn-dark loc" [disabled]="worldMap.west(location) == null" (click)="move(Direction.west)">W</button>
       <button type="button" class="btn btn-dark explore" [disabled]="game.monster != null" (click)="explore()">Explore</button>
-      <button type="button" class="btn btn-dark loc" [disabled]="!location?.E" (click)="move(Direction.east)">E</button>
+      <button type="button" class="btn btn-dark loc" [disabled]="worldMap.east(location) == null" (click)="move(Direction.east)">E</button>
     </div>
 
-    <button type="button" class="btn btn-dark loc" [disabled]="!location?.S" (click)="move(Direction.south)">S</button>
+    <button type="button" class="btn btn-dark loc" [disabled]="worldMap.south(location) == null" (click)="move(Direction.south)">S</button>
   </div>
 </div>

@@ -10,6 +10,7 @@ import '../models/items/inventory_item.dart';
 import '../models/items/healing_potion.dart';
 import '../models/items/weapon.dart';
 import '../models/locations/location.dart';
+import '../models/locations/world_map.dart';
 import '../models/message.dart';
 import '../utils/roller.dart';
 
@@ -20,6 +21,7 @@ class Game {
   final LoggerService _log;
 
   World _world;
+  WorldMap _worldMap;
   Player _player;
   Location _location;
   LiveMonster _monster;
@@ -33,6 +35,11 @@ class Game {
   void newGame(World world) {
     // save reference to world
     _world = world;
+
+    // create world map
+    _worldMap = new WorldMap.fromLocations(20, _world.locationsList);
+
+    _log.info("$runtimeType::newGame()\n$worldMap");
 
     // create player
     _player = new Player();
@@ -55,9 +62,6 @@ class Game {
     _location = loc;
 
     _checkQuests(loc);
-
-    // let's try checking for monsters only on explore
-//    _checkMonsters(loc);
   }
 
   void explore() {
@@ -246,4 +250,5 @@ class Game {
   Location get location => _location;
   LiveMonster get monster => _monster;
   List<Message> get messages => _messages;
+  WorldMap get worldMap => _worldMap;
 }

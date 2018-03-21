@@ -14,4 +14,5 @@ abstract class World {
   Map<MonsterID, Monster> get monsters;
   Map<QuestID, Quest> get quests;
   Map<LocationID, Location> get locations;
+  List<Location> get locationsList;
 }

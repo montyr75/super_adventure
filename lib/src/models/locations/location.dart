@@ -4,7 +4,7 @@ import '../quests/quest.dart';
 import '../creatures/monster.dart';
 import '../../utils/roller.dart';
 
-class Location {
+class Location implements Comparable<Location> {
   static const String NAME_COLOR = "blue";
 
   final LocationID id;
@@ -17,32 +17,11 @@ class Location {
   final Quest quest;
   final List<LocationMonster> monsters;
 
-  final Map<Direction, Location> destinations = {};
-
   Location(this.id, this.coords, this.name, this.description, {this.itemToEnter, this.quest, this.monsters});
-
-  void linkLocations({Location north, Location east, Location south, Location west}) {
-    destinations[Direction.north] = north;
-    destinations[Direction.east] = east;
-    destinations[Direction.south] = south;
-    destinations[Direction.west] = west;
-  }
 
   bool get requiresItemToEnter => itemToEnter != null;
   bool get hasQuest => quest != null;
   bool get hasMonster => monsters != null && monsters.isNotEmpty;
-
-  // travel destinations
-  Location get north => destinations[Direction.north];
-  Location get east => destinations[Direction.east];
-  Location get south => destinations[Direction.south];
-  Location get west => destinations[Direction.west];
-
-  // travel options
-  bool get N => north != null;
-  bool get E => east != null;
-  bool get S => south != null;
-  bool get W => west != null;
 
   String get htmlName => '<span style="color: $NAME_COLOR;">$name</span>';
 
@@ -57,6 +36,21 @@ class Location {
 
     return null;
   }
+
+  /// sort locations based on map row (WorldMap likes this)
+  int compareTo(Location other) {
+    if (coords.row < other.coords.row) {
+      return -1;
+    }
+    else if (coords.row > other.coords.row) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+
+  @override String toString() => "$name $coords";
 }
 
 enum LocationID {

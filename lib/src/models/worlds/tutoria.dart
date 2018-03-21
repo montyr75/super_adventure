@@ -7,7 +7,8 @@ import '../items/healing_potion.dart';
 import '../creatures/monster.dart';
 import '../creatures/attack.dart';
 import '../quests/quest.dart';
-import '../location.dart';
+import '../locations/location.dart';
+import '../locations/map_coords.dart';
 
 
 /// the tutorial world from https://scottlilly.com/learn-c-by-building-a-simple-rpg-index
@@ -88,32 +89,32 @@ class Tutoria implements World {
     };
 
     _locations = {
-      LocationID.home: new Location(LocationID.home, "Home", "Your house. You really need to clean up the place."),
-      LocationID.townSquare: new Location(LocationID.townSquare, "Town Square", "You see a fountain."),
-      LocationID.alchemistsHut: new Location(LocationID.alchemistsHut, "Alchemist's Hut", "There are many strange plants on the shelves.",
+      LocationID.home: new Location(LocationID.home, const MapCoords(0, 0), "Home", "Your house. You really need to clean up the place."),
+      LocationID.townSquare: new Location(LocationID.townSquare, const MapCoords(0, 0), "Town Square", "You see a fountain."),
+      LocationID.alchemistsHut: new Location(LocationID.alchemistsHut, const MapCoords(0, 0), "Alchemist's Hut", "There are many strange plants on the shelves.",
         quest: quests[QuestID.clearAlchemistsGarden]
       ),
-      LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, "Alchemist's Garden", "Many plants are growing here.",
+      LocationID.alchemistsGarden: new Location(LocationID.alchemistsGarden, const MapCoords(0, 0), "Alchemist's Garden", "Many plants are growing here.",
         monsters: [
           new LocationMonster(monsters[MonsterID.rat], 70),
           new LocationMonster(monsters[MonsterID.swarmOfRats], 25)
         ]
       ),
-      LocationID.farmhouse: new Location(LocationID.farmhouse, "Farmhouse", "There is a small farmhouse, with a farmer in front.",
+      LocationID.farmhouse: new Location(LocationID.farmhouse, const MapCoords(0, 0), "Farmhouse", "There is a small farmhouse, with a farmer in front.",
         quest: quests[QuestID.clearFarmersField]
       ),
-      LocationID.farmersField: new Location(LocationID.farmersField, "Farmer's Field", "You see rows of vegetables growing here.",
+      LocationID.farmersField: new Location(LocationID.farmersField, const MapCoords(0, 0), "Farmer's Field", "You see rows of vegetables growing here.",
         monsters: [
           new LocationMonster(monsters[MonsterID.snake], 70),
           new LocationMonster(monsters[MonsterID.killerRabbit], 10)
         ]
       ),
-      LocationID.guardPost: new Location(LocationID.guardPost, "Guard Post", "There is a large, tough-looking guard here.",
+      LocationID.guardPost: new Location(LocationID.guardPost, const MapCoords(0, 0), "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass],
         quest: quests[QuestID.retrieveSpiderVenomSack]
       ),
-      LocationID.bridge: new Location(LocationID.bridge, "Bridge", "A stone bridge crosses a wide river."),
-      LocationID.spiderForest: new Location(LocationID.spiderForest, "Spider Forest", "You see spider webs covering the trees in this forest.",
+      LocationID.bridge: new Location(LocationID.bridge, const MapCoords(0, 0), "Bridge", "A stone bridge crosses a wide river."),
+      LocationID.spiderForest: new Location(LocationID.spiderForest, const MapCoords(0, 0), "Spider Forest", "You see spider webs covering the trees in this forest.",
         monsters: [
           new LocationMonster(monsters[MonsterID.spider], 50),
           new LocationMonster(monsters[MonsterID.swarmOfSpiders], 30),
@@ -121,7 +122,6 @@ class Tutoria implements World {
         ]
       )
     };
-
 
     // link locations together
     locations[LocationID.home].linkLocations(

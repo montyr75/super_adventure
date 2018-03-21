@@ -4,7 +4,7 @@ import 'package:angular/angular.dart';
 
 import '../../services/logger_service.dart';
 import '../../services/game.dart';
-import '../../models/location.dart';
+import '../../models/locations/location.dart';
 
 import '../../directives/safe_inner_html.dart';
 

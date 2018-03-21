@@ -1,12 +1,14 @@
-import 'items/item.dart';
-import 'quests/quest.dart';
-import 'creatures/monster.dart';
-import '../utils/roller.dart';
+import 'map_coords.dart';
+import '../items/item.dart';
+import '../quests/quest.dart';
+import '../creatures/monster.dart';
+import '../../utils/roller.dart';
 
 class Location {
   static const String NAME_COLOR = "blue";
 
   final LocationID id;
+  final MapCoords coords;
   final String name;
   final String description;
 
@@ -17,7 +19,7 @@ class Location {
 
   final Map<Direction, Location> destinations = {};
 
-  Location(this.id, this.name, this.description, {this.itemToEnter, this.quest, this.monsters});
+  Location(this.id, this.coords, this.name, this.description, {this.itemToEnter, this.quest, this.monsters});
 
   void linkLocations({Location north, Location east, Location south, Location west}) {
     destinations[Direction.north] = north;

@@ -1,7 +1,7 @@
 import '../items/item.dart';
 import '../creatures/monster.dart';
 import '../quests/quest.dart';
-import '../location.dart';
+import '../locations/location.dart';
 
 abstract class World {
   Map<ItemID, Item> _items;

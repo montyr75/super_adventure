@@ -9,7 +9,7 @@ import '../models/items/item.dart';
 import '../models/items/inventory_item.dart';
 import '../models/items/healing_potion.dart';
 import '../models/items/weapon.dart';
-import '../models/location.dart';
+import '../models/locations/location.dart';
 import '../models/message.dart';
 import '../utils/roller.dart';
 

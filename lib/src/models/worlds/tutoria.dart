@@ -23,7 +23,7 @@ class Tutoria implements World {
   Tutoria() {
     _items = {
       ItemID.rustySword: new Weapon(ItemID.rustySword, "Rusty Sword", "Rusty Swords", "1d4 + 1"),
-      ItemID.club: new Weapon(ItemID.club, "Club", "Clubs", "1d6"),
+      ItemID.club: new Weapon(ItemID.club, "Club", "Clubs", "1d6 + 1"),
       ItemID.longsword: new Weapon(ItemID.longsword, "Longsword", "Longswords", "1d8 + 1"),
       ItemID.ratTail: new Item(ItemID.ratTail, "Rat Tail", "Rat Tails"),
       ItemID.pieceOfFur: new Item(ItemID.pieceOfFur, "Piece of Fur", "Pieces of Fur"),
@@ -33,6 +33,8 @@ class Tutoria implements World {
       ItemID.spiderSilk: new Item(ItemID.spiderSilk, "Spider Silk", "Spider Silks"),
       ItemID.adventurerPass: new Item(ItemID.adventurerPass, "Adventurer Pass", "Adventurer Passes"),
       ItemID.venomSack: new Item(ItemID.venomSack, "Venom Sack", "Venom Sacks"),
+      ItemID.goblinEar: new Item(ItemID.goblinEar, "Goblin Ear", "Goblin Ears"),
+      ItemID.trinket: new Item(ItemID.trinket, "Trinket", "Trinkets"),
       ItemID.healingPotion: new HealingPotion("2d4")
     };
 
@@ -58,7 +60,12 @@ class Tutoria implements World {
         new LootItem(items[ItemID.spiderFang], 75),
         new LootItem(items[ItemID.spiderSilk], 75),
         new LootItem(items[ItemID.venomSack], 50)
-      ])
+      ]),
+      MonsterID.goblin: new Monster(MonsterID.goblin, "Goblin", "1d8 + 2", 13, new Attack("Scimitar", 4, "1d6 + 2"), 15, 1, <LootItem>[
+        new LootItem(items[ItemID.goblinEar], 40),
+        new LootItem(items[ItemID.trinket], 50)
+      ]),
+      MonsterID.giantCentipede: new Monster(MonsterID.giantCentipede, "Giant Centipede", "1d6 + 1", 13, new Attack("Bite", 4, "1d4 + 2"), 15, 0)
     };
 
     _quests = {
@@ -85,6 +92,14 @@ class Tutoria implements World {
         questCompletionItems: <InventoryItem>[
           new InventoryItem(items[ItemID.venomSack])
         ]
+      ),
+      QuestID.quellGoblinThreat: new Quest(QuestID.quellGoblinThreat,
+        "Quell the Goblin Threat",
+        "The goblins of Goblin Mountain continously harrass the tribe. Thin out their numbers to teach them a lesson. Bring back 3 of their ears to prove the deed done. For this, you will be given a tribal club and 20 gold.",
+        100, gold: 20, item: items[ItemID.club],
+        questCompletionItems: <InventoryItem>[
+          new InventoryItem(items[ItemID.goblinEar], 3)
+        ]
       )
     };
 
@@ -109,18 +124,29 @@ class Tutoria implements World {
           new LocationMonster(monsters[MonsterID.killerRabbit], 10)
         ]
       ),
-      LocationID.guardPost: new Location(LocationID.guardPost, const MapCoords(18, 11), "Guard Post", "There is a large, tough-looking guard here.",
+      LocationID.guardPost: new Location(LocationID.guardPost, const MapCoords(18, 12), "Guard Post", "There is a large, tough-looking guard here.",
         itemToEnter: items[ItemID.adventurerPass],
         quest: quests[QuestID.retrieveSpiderVenomSack]
       ),
-      LocationID.bridge: new Location(LocationID.bridge, const MapCoords(18, 12), "Bridge", "A stone bridge crosses a wide river."),
-      LocationID.spiderForest: new Location(LocationID.spiderForest, const MapCoords(18, 13), "Spider Forest", "You see spider webs covering the trees in this forest.",
+      LocationID.bridge: new Location(LocationID.bridge, const MapCoords(18, 13), "Bridge", "A stone bridge crosses a wide river."),
+      LocationID.spiderForest: new Location(LocationID.spiderForest, const MapCoords(18, 14), "Spider Forest", "You see spider webs covering the trees in this forest.",
         monsters: [
           new LocationMonster(monsters[MonsterID.spider], 50),
           new LocationMonster(monsters[MonsterID.swarmOfSpiders], 30),
           new LocationMonster(monsters[MonsterID.giantSpider], 40)
         ]
-      )
+      ),
+      LocationID.eastWard: new Location(LocationID.eastWard, const MapCoords(18, 11), "East Ward", "Townfolk bustle past you, living out their peasant lives."),
+      LocationID.tundra: new Location(LocationID.tundra, const MapCoords(17, 12), "Tundra", "This barren wasteland is home to roving tribes of barbarians."),
+      LocationID.barbarianCamp: new Location(LocationID.barbarianCamp, const MapCoords(16, 12), "Barbarian Camp", "The rugged people the barbarian tribe eye you with suspicion as they go about their daily chores.",
+        quest: quests[QuestID.quellGoblinThreat]
+      ),
+      LocationID.goblinMountain: new Location(LocationID.goblinMountain, const MapCoords(15, 12), "Goblin Mountain", "The rocky terrain of the mountain slows your progress. You try to stay alert, wary of attack by the area's ill-tempered denizens.",
+        monsters: [
+          new LocationMonster(monsters[MonsterID.goblin], 60),
+          new LocationMonster(monsters[MonsterID.giantCentipede], 30)
+        ]
+      ),
     };
   }
 

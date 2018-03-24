@@ -87,5 +87,7 @@ enum MonsterID {
   spider,
   swarmOfSpiders,
   giantSpider,
-  killerRabbit
+  killerRabbit,
+  goblin,
+  giantCentipede
 }

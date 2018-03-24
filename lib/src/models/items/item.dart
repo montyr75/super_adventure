@@ -29,5 +29,7 @@ enum ItemID {
   spiderSilk,
   adventurerPass,
   venomSack,
-  longsword
+  longsword,
+  goblinEar,
+  trinket
 }

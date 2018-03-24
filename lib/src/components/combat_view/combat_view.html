@@ -79,7 +79,7 @@
     <div class="layout horizontal top-space"><i class="ra ra-shield ra-lg"></i> {{game.player.ac}}</div>
 
     <div class="layout vertical top-space">
-      <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger"
+      <button *ngFor="let weapon of game.player.weapons" type="button" class="layout vertical center btn btn-outline-danger" style="margin-bottom: .3em"
               (click)="game.playerAttack(weapon)"
               [disabled]="game.monster.isDead || game.player.isDead">
         <img [src]="weapon.imgPath" class="weapon-image">

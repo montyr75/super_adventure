@@ -62,7 +62,11 @@ enum LocationID {
   farmersField,
   guardPost,
   bridge,
-  spiderForest
+  spiderForest,
+  eastWard,
+  tundra,
+  barbarianCamp,
+  goblinMountain
 }
 
 enum Direction {

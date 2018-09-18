@@ -11,6 +11,7 @@ import '../../directives/safe_inner_html.dart';
 
 @Component(selector: 'location-view',
     templateUrl: 'location_view.html',
+    styleUrls: ['location_view.css'],
     directives: const [SafeInnerHtml],
     exports: const [Direction]
 )

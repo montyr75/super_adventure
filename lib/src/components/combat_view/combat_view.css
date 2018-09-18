@@ -1,0 +1,50 @@
+.announcement {
+  font-size: 2em;
+}
+
+.monster-preview {
+  max-height: 300px;
+}
+
+.combat-image {
+  height: 200px;
+}
+
+.weapon-image {
+  max-height: 75px;
+}
+
+.top-space {
+  margin-top: 1em;
+}
+
+messages-view {
+  overflow-y: hidden;
+  height: 80vh;
+}
+
+.outer-box {
+  position: relative;
+}
+
+.outer-box .inner-box {
+  background: red;
+  opacity: 0;
+  padding: 0;
+  transition: opacity .5s;
+}
+
+.outer-box .inner-box p {
+  color: #fff;
+  line-height: 150px;
+  text-align: center;
+}
+
+.inner-box.showoverlay {
+  opacity: .6 !important;
+  transition: opacity .5s !important;
+}
+
+material-progress ::ng-deep .active-progress {
+  background-color: red;
+}

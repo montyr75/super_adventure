@@ -1,0 +1,18 @@
+:host {
+  padding: 0 10px;
+}
+
+button.loc {
+  width: 40px;
+  height: 38px;
+}
+
+button.explore {
+  margin: 5px;
+}
+
+.location {
+  height: 300px;
+  padding: .5em;
+  margin-bottom: 1em;
+}

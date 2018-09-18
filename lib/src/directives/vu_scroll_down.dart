@@ -15,7 +15,7 @@ class VuScrollDown {
     _mo.observe(_el, childList: true);
   }
 
-  void _mutation(List<MutationRecord> mutations, MutationObserver observer) {
+  void _mutation(List mutations, MutationObserver observer) {
     for (MutationRecord mutation in mutations) {
       for (Node node in mutation.addedNodes) {
         if (node is Element) {
